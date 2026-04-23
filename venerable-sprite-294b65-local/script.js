@@ -256,19 +256,14 @@ function clearSession() {
 }
 
 function updateStudentBadge() {
-  const name = localStorage.getItem(STORAGE.studentName);
   const teacherLogged = localStorage.getItem(STORAGE.teacherLogged) === "true";
   const target = document.querySelector("[data-student-display]");
   if (!target) return;
-  if (name) {
-    target.textContent = name;
-    return;
-  }
   if (teacherLogged) {
     target.innerHTML = dualText("Espace enseignant", "فضاء الأستاذ");
     return;
   }
-  target.innerHTML = dualText("Visiteur", "زائر");
+  target.innerHTML = dualText("Profil prive", "ملف خاص");
 }
 
 function applyLanguage(lang) {
@@ -1276,7 +1271,6 @@ function initResultPage() {
   const tip = document.querySelector("[data-result-tip]");
   const steps = document.querySelector("[data-result-steps]");
   const errors = document.querySelector("[data-result-errors]");
-  const time = document.querySelector("[data-result-time]");
   if (title) title.textContent = getText(result.title);
   if (score) score.textContent = result.score;
   if (badge) badge.textContent = getText(result.badge);
@@ -1284,7 +1278,6 @@ function initResultPage() {
   if (tip) tip.textContent = getText(result.tip);
   if (steps) steps.textContent = String(result.stepsCompleted);
   if (errors) errors.textContent = String(result.errors.length);
-  if (time) time.textContent = formatTime(result.elapsedSeconds || 0);
 }
 
 EXPERIMENTS.plante.quiz = [
