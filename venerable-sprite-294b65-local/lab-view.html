@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>??????? ?????? ??????????</title>
+  <link rel="icon" href="./favicon.ico" />
+  <link rel="stylesheet" href="./assets/css/lab-runtime.css" />
+</head>
+<body class="mode-physics lang-ar">
+  <div id="lab-switcher">
+    <button class="lab-mode-btn active" data-lab="physics" data-i18n="lab.physics" type="button">?????? ?????? ???????</button>
+    <button class="lab-mode-btn" data-lab="circuit" data-i18n="lab.circuit" type="button">????? ???????</button>
+    <button class="lab-mode-btn" data-lab="biology" data-i18n="lab.biology" type="button">???? CEM</button>
+    <button class="lab-mode-btn" data-lab="chemistry" data-i18n="lab.chemistry" type="button">?????? ?????</button>
+    <div class="switch-divider" aria-hidden="true"></div>
+    <button class="lang-switch-btn active" data-lang="ar" type="button">???????</button>
+    <button class="lang-switch-btn" data-lang="fr" type="button">Fran�ais</button>
+  </div>
+
+  <div id="ui-panel">
+    <div class="panel-header">
+      <div>
+        <div class="eyebrow" data-i18n="physics.eyebrow">????? ??? ???????</div>
+        <h1 data-i18n="physics.title">????? ????????</h1>
+        <p class="subtitle" data-i18n="physics.subtitle">???? ??????? ????? ??????? ????? ????? ????? ????? ??????? ?????? ?????? ???? ???????.</p>
+      </div>
+      <div class="status-pill">
+        <strong data-i18n="physics.display.label">?????</strong>
+        <span data-i18n="physics.display.value">??? ??? ??????</span>
+      </div>
+    </div>
+
+    <section class="experiment-section">
+      <div class="section-head">
+        <h2 data-i18n="physics.freefall.title">?????? ????</h2>
+        <span class="chip" data-i18n="physics.freefall.chip">?????</span>
+      </div>
+      <div class="row">
+        <button onclick="startFreeFall()" data-i18n="physics.freefall.drop">???? ?????</button>
+        <button class="secondary" onclick="resetLab()" data-i18n="physics.resetLab">????? ??? ???????</button>
+      </div>
+      <div id="freefall-result" class="metric"><strong>????????:</strong> 1.50 ?<br><strong>?????:</strong> �<br><strong>g:</strong> �</div>
+    </section>
+
+    <section class="experiment-section">
+      <div class="section-head">
+        <h2 data-i18n="physics.incline.title">??????? ??????</h2>
+        <span class="chip" data-i18n="physics.incline.chip">???????</span>
+      </div>
+      <label for="angle-slider" class="metric angle-metric" style="display:block; margin-top:0; margin-bottom:10px;">
+        <strong data-i18n="physics.incline.angleLabel">???????</strong>
+        <span id="angle-label" class="angle-value">30�</span>
+      </label>
+      <input id="angle-slider" type="range" min="10" max="60" value="30" oninput="setAngle(this.value)" />
+      <div id="incline-result" class="metric"><strong>???????:</strong> a = g sin(30�) = 4.91 m/s�</div>
+    </section>
+
+    <section class="experiment-section">
+      <div class="section-head">
+        <h2 data-i18n="physics.scale.title">??????? ??????</h2>
+        <span class="chip" data-i18n="physics.scale.chip">??????</span>
+      </div>
+      <div class="metric" style="margin-top:0;">
+        <strong data-i18n="physics.scale.readingLabel">???????</strong>
+        <div id="scale-reading" class="scale-readout">0.00 g</div>
+      </div>
+    </section>
+
+    <section class="experiment-section">
+      <div class="section-head">
+        <h2 data-i18n="physics.pendulum.title">???????</h2>
+        <span class="chip" data-i18n="physics.pendulum.chip">???????</span>
+      </div>
+      <div class="row">
+        <button onclick="resetPendulum()" data-i18n="physics.pendulum.reset">????? ??? ???????</button>
+      </div>
+      <div id="pendulum-period" class="metric"><strong>????? ??????:</strong> �</div>
+      <div id="pendulum-angle" class="metric"><strong>???????:</strong> 0.0�</div>
+    </section>
+
+    <section class="experiment-section">
+      <div class="section-head">
+        <h2 data-i18n="physics.collision.title">????? ?????? ???????</h2>
+        <span class="chip" data-i18n="physics.collision.chip">?????</span>
+      </div>
+      <div class="row">
+        <button onclick="launchCollision()" data-i18n="physics.collision.launch">?????</button>
+      </div>
+      <div id="collision-result" class="metric"><strong>??????:</strong> ???? ?????? ????????.</div>
+    </section>
+
+    <div class="footer-notes" data-i18n-html="physics.controlsHtml">
+      <strong>??????</strong><br />
+      ???? ??? ?????? ?????? ?????? ???????.<br />
+      ???? ??? ?????? ?????? ??? ??????? ??????? ?????? ????????.<br />
+      ?????? ???? ?????? ??????? ??? ???????.
+    </div>
+  </div>
+
+  <div id="hint-ribbon" data-i18n-html="physics.hintHtml">
+    <strong>???? ???:</strong> ???? ????? ??????? ??????? ??? ????? ??? ???????? ?? ???? ??? ??????? ??????? ??? ???????.
+  </div>
+
+  <section id="circuit-shell" aria-hidden="true">
+    <div id="circuit-main">
+      <div id="circuit-toolbar">
+        <div id="circuit-status"></div>
+        <button id="circuit-delete" class="secondary danger" data-i18n="circuit.delete" type="button">??? ?????? ??????</button>
+        <button id="circuit-reset" data-i18n="circuit.reset" type="button">????? ????? ???????</button>
+      </div>
+
+      <div id="circuit-board-wrap">
+        <div class="circuit-stage-card">
+          <div class="circuit-brand">
+            <div class="circuit-label" data-i18n="circuit.eyebrow">???? ??????</div>
+            <h2 data-i18n="circuit.title">????? ??????? ??????????</h2>
+            <p data-i18n="circuit.subtitle">???? ??? ?? ????? ?????? ??????: ???????? ??????? ???????? ??????? ??? ?????? ?????? ????? ????????? ??????.</p>
+          </div>
+
+          <div class="circuit-practical-card">
+            <strong data-i18n="circuit.briefTitle">?????? ???????</strong>
+            <p data-i18n="circuit.briefText">???? ???? ??????? ??? ???????: ??? ????? ?????? ???????? ???????? ?? ????????? ???? ?????? ??? ????? ??????.</p>
+          </div>
+
+          <div class="circuit-board-guide">
+            <strong data-i18n="circuit.boardGuide.title">???? ??? ???????</strong>
+            <div class="circuit-board-guide-grid">
+              <div class="circuit-board-guide-item">
+                <span data-i18n="circuit.boardGuide.powerLabel">POWER UNIT</span>
+                <small data-i18n="circuit.boardGuide.powerText">???? ?? ??? ???????? ?? ???? ?? ??????? ??? ????? ?????? ?????? ??????.</small>
+              </div>
+              <div class="circuit-board-guide-item">
+                <span data-i18n="circuit.boardGuide.switchLabel">SWITCH</span>
+                <small data-i18n="circuit.boardGuide.switchText">???? ??? ?????? ??? ??????? ?????? ?????? ??? ????? ????????.</small>
+              </div>
+              <div class="circuit-board-guide-item">
+                <span data-i18n="circuit.boardGuide.lampLabel">LAMP</span>
+                <small data-i18n="circuit.boardGuide.lampText">??????? ???? ??? ??? ??? ?????? ?????? ??????? ?? ?????? ??? ??????.</small>
+              </div>
+              <div class="circuit-board-guide-item">
+                <span data-i18n="circuit.boardGuide.wireLabel">WIRING</span>
+                <small data-i18n="circuit.boardGuide.wireText">???? ??? ???? ?? ???? ??? ???? ???. ?? ?????? ?????? ???? ?????.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="circuit-readouts">
+            <div class="circuit-readout">
+              <span data-i18n="circuit.readouts.lamp">???????</span>
+              <strong id="circuit-lamp-readout">�</strong>
+            </div>
+            <div class="circuit-readout">
+              <span data-i18n="circuit.readouts.switch">??????</span>
+              <strong id="circuit-switch-readout">�</strong>
+            </div>
+            <div class="circuit-readout">
+              <span data-i18n="circuit.readouts.wires">???????</span>
+              <strong id="circuit-wires-readout">0</strong>
+            </div>
+            <div class="circuit-readout">
+              <span data-i18n="circuit.readouts.components">???????</span>
+              <strong id="circuit-components-readout">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div id="circuit-viewport"></div>
+      </div>
+
+      <aside id="circuit-sidebar">
+        <div class="circuit-card-head">
+          <div>
+            <div class="circuit-mini-label" data-i18n="circuit.kitLabel">????? ???????</div>
+            <h3 data-i18n="circuit.kitTitle">??????? ??????</h3>
+          </div>
+          <span class="chip" data-i18n="circuit.kitChip">???? ???????</span>
+        </div>
+
+        <div class="palette-list">
+          <button class="palette-item palette-battery" data-component-type="battery" type="button">
+            <div class="palette-item-layout">
+              <div class="palette-visual" aria-hidden="true">
+                <svg viewBox="0 0 180 100" role="presentation">
+                  <defs>
+                    <linearGradient id="battery-shell" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#6b757e" />
+                      <stop offset="100%" stop-color="#414951" />
+                    </linearGradient>
+                    <linearGradient id="battery-cell" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#d8dde2" />
+                      <stop offset="100%" stop-color="#b2b8bf" />
+                    </linearGradient>
+                  </defs>
+                  <ellipse cx="89" cy="82" rx="48" ry="8" fill="rgba(29, 48, 34, 0.18)" />
+                  <rect x="44" y="50" width="92" height="18" rx="8" fill="#25292d" />
+                  <rect x="52" y="34" width="76" height="24" rx="8" fill="url(#battery-shell)" />
+                  <rect x="60" y="30" width="18" height="24" rx="5" fill="url(#battery-cell)" />
+                  <rect x="88" y="24" width="26" height="31" rx="6" fill="url(#battery-cell)" />
+                  <rect x="69" y="41" width="38" height="5" rx="2.5" fill="#5e8f63" opacity="0.92" />
+                  <circle cx="56" cy="31" r="4.5" fill="#1a1c1f" />
+                  <circle cx="118" cy="25" r="5.5" fill="#c14f42" />
+                  <rect x="117" y="18" width="2.5" height="8" rx="1.2" fill="#f1ddcb" />
+                  <rect x="113.5" y="20.8" width="9.5" height="2.4" rx="1.2" fill="#f1ddcb" />
+                </svg>
+              </div>
+              <div class="palette-copy">
+                <strong data-i18n="circuit.battery.name">??????</strong>
+                <span data-i18n="circuit.battery.desc">6V ?? ????? + ? -</span>
+                <small data-i18n="circuit.battery.tip">?????? ??? ????? ?????? ???????.</small>
+              </div>
+            </div>
+          </button>
+          <button class="palette-item palette-bulb" data-component-type="bulb" type="button">
+            <div class="palette-item-layout">
+              <div class="palette-visual" aria-hidden="true">
+                <svg viewBox="0 0 180 100" role="presentation">
+                  <defs>
+                    <radialGradient id="bulb-glass" cx="50%" cy="32%" r="56%">
+                      <stop offset="0%" stop-color="#fff8de" />
+                      <stop offset="65%" stop-color="#f7df9d" stop-opacity="0.92" />
+                      <stop offset="100%" stop-color="#efc56c" stop-opacity="0.7" />
+                    </radialGradient>
+                    <linearGradient id="bulb-base" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#bf9156" />
+                      <stop offset="100%" stop-color="#7c5930" />
+                    </linearGradient>
+                  </defs>
+                  <ellipse cx="90" cy="82" rx="28" ry="8" fill="rgba(105, 72, 15, 0.18)" />
+                  <ellipse cx="90" cy="72" rx="18" ry="7" fill="#38414a" />
+                  <rect x="74" y="59" width="32" height="15" rx="6" fill="#3b444c" />
+                  <rect x="80" y="45" width="20" height="17" rx="4" fill="url(#bulb-base)" />
+                  <ellipse cx="90" cy="44" rx="10" ry="4" fill="#ddb882" opacity="0.82" />
+                  <path d="M78 41C78 27 83 16 90 16C97 16 102 27 102 41C102 52 97 60 90 60C83 60 78 52 78 41Z" fill="url(#bulb-glass)" stroke="rgba(186,138,63,0.55)" stroke-width="1.8" />
+                  <path d="M86 43L88 38L92 38L94 43" fill="none" stroke="#8b5410" stroke-width="2.1" stroke-linecap="round" />
+                  <path d="M84 48C86 45 94 45 96 48" fill="none" stroke="#8b5410" stroke-width="2.1" stroke-linecap="round" />
+                  <circle cx="84" cy="64" r="3.4" fill="#cfab66" />
+                  <circle cx="96" cy="64" r="3.4" fill="#cfab66" />
+                </svg>
+              </div>
+              <div class="palette-copy">
+                <strong data-i18n="circuit.bulb.name">?????</strong>
+                <span data-i18n="circuit.bulb.desc">????? ??? ???? ??????</span>
+                <small data-i18n="circuit.bulb.tip">????? ?????? ???? ???? ????? ????? ???????.</small>
+              </div>
+            </div>
+          </button>
+          <button class="palette-item palette-switch" data-component-type="switch" type="button">
+            <div class="palette-item-layout">
+              <div class="palette-visual" aria-hidden="true">
+                <svg viewBox="0 0 180 100" role="presentation">
+                  <defs>
+                    <linearGradient id="switch-board" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#8a7156" />
+                      <stop offset="100%" stop-color="#67513d" />
+                    </linearGradient>
+                  </defs>
+                  <ellipse cx="90" cy="82" rx="46" ry="8" fill="rgba(73, 35, 19, 0.18)" />
+                  <rect x="46" y="48" width="88" height="22" rx="8" fill="url(#switch-board)" />
+                  <rect x="54" y="40" width="72" height="16" rx="6" fill="#6f5344" opacity="0.92" />
+                  <circle cx="72" cy="49" r="5.2" fill="#c49a63" />
+                  <circle cx="108" cy="49" r="5.2" fill="#c49a63" />
+                  <rect x="71" y="48" width="41" height="4.5" rx="2.2" fill="#d8ccb9" transform="rotate(-24 71 48)" />
+                  <circle cx="72" cy="49" r="2.1" fill="#f0e5d2" />
+                  <rect x="67" y="33" width="28" height="5" rx="2.5" fill="#4c7f57" opacity="0.8" />
+                </svg>
+              </div>
+              <div class="palette-copy">
+                <strong data-i18n="circuit.switch.name">????</strong>
+                <span data-i18n="circuit.switch.desc">???? ????? ?????? ??????</span>
+                <small data-i18n="circuit.switch.tip">???? ??? ????? ????? ???????? ?? ????? ???????.</small>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div class="circuit-note" data-i18n="circuit.note">
+          ???? ??? ????? ??????? (??????) ???? ???? ?? ??? ???? ??? ??????? � ???? ????? ??? ??????? ?????? ???????? � ?? ?????? ?????? ???? ?????.
+        </div>
+      </aside>
+
+      <div id="circuit-hint-ribbon" data-i18n-html="circuit.hintHtml">
+        <strong>??? ?????? ???????:</strong>
+        ?? <strong>???????:</strong> ???? ??????/????/????? ?? ?????? ??? ????? � ?? ???? ??? ????? ??????? (??????) ????? ?????? ??? ???? ???.
+        &nbsp;&nbsp;
+        ? <strong>???????:</strong> ???? ??? ??????? ?? ?????? 3D ?????? ?? ??????? ???? ??????? ????.
+      </div>
+    </div>
+  </section>
+
+  <section id="biology-shell" class="immersive-shell" aria-hidden="true">
+    <div class="immersive-main">
+      <aside class="immersive-overlay">
+        <div class="eyebrow" data-i18n="biology.eyebrow">???? CEM</div>
+        <h2 data-i18n="biology.title">?????? ?????? ????? ???????</h2>
+        <p data-i18n="biology.subtitle">??? ????? ??????? ?? ???? ??? ?????? ??????? ??????? ???????? ???? ?????? ??? ?? ???? ?????? ????? ??? ?????.</p>
+
+        <div class="immersive-stat-grid">
+          <div class="immersive-stat">
+            <span data-i18n="biology.stats.levelLabel">???????</span>
+            <strong data-i18n="biology.stats.levelValue">???? CEM</strong>
+          </div>
+          <div class="immersive-stat">
+            <span data-i18n="biology.stats.sceneLabel">??????</span>
+            <strong data-i18n="biology.stats.sceneValue">??? ??? + ???? ?????</strong>
+          </div>
+          <div class="immersive-stat">
+            <span data-i18n="biology.progress.waterLabel">?????</span>
+            <strong id="biology-water-readout">????</strong>
+          </div>
+          <div class="immersive-stat">
+            <span data-i18n="biology.progress.leafLabel">???????</span>
+            <strong id="biology-leaf-readout">?????</strong>
+          </div>
+        </div>
+
+        <div class="immersive-tool-shelf">
+          <div class="immersive-tool-head">
+            <span data-i18n="biology.palette.title">????? ???????</span>
+            <small data-i18n="biology.palette.hint">???? ?????? ??????? ???? ??????</small>
+          </div>
+          <div class="immersive-object-grid">
+            <button class="immersive-object-card" id="biology-tool-dye" data-lab-object="biology-dye" type="button" draggable="true">
+              <div class="immersive-object-visual" aria-hidden="true">
+                <svg viewBox="0 0 180 120" role="presentation">
+                  <defs>
+                    <linearGradient id="bio-dropper-glass" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#f8fdff" stop-opacity="0.92" />
+                      <stop offset="100%" stop-color="#8db4db" stop-opacity="0.72" />
+                    </linearGradient>
+                    <linearGradient id="bio-dropper-liquid" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#ff6080" />
+                      <stop offset="100%" stop-color="#d94060" />
+                    </linearGradient>
+                  </defs>
+                  <ellipse cx="88" cy="100" rx="46" ry="8" fill="rgba(7,18,25,0.18)" />
+                  <rect x="66" y="14" width="44" height="24" rx="9" fill="#26445a" />
+                  <rect x="74" y="30" width="28" height="12" rx="4" fill="#eff5f8" />
+                  <rect x="72" y="40" width="32" height="42" rx="10" fill="url(#bio-dropper-glass)" />
+                  <rect x="75" y="58" width="26" height="20" rx="8" fill="url(#bio-dropper-liquid)" />
+                  <path d="M88 81L95 96H81L88 81Z" fill="#d94060" />
+                  <circle cx="88" cy="94" r="5" fill="#ff6080" />
+                </svg>
+              </div>
+              <div class="immersive-object-meta">
+                <strong data-i18n="biology.objects.dye">???? ?????</strong>
+                <span data-i18n="common.dragDrop">???? ?????</span>
+              </div>
+            </button>
+            <button class="immersive-object-card" id="biology-tool-plant" data-lab-object="biology-plant" type="button" draggable="true">
+              <div class="immersive-object-visual" aria-hidden="true">
+                <svg viewBox="0 0 180 120" role="presentation">
+                  <ellipse cx="90" cy="102" rx="42" ry="8" fill="rgba(10,22,12,0.16)" />
+                  <rect x="81" y="38" width="8" height="46" rx="4" fill="#5d8b49" />
+                  <path d="M86 44C62 36 54 56 71 67C83 75 92 62 86 44Z" fill="#79b16b" />
+                  <path d="M94 50C118 39 127 57 110 69C99 76 88 65 94 50Z" fill="#6ea460" />
+                  <path d="M88 26C72 29 73 49 89 52C105 49 104 29 88 26Z" fill="#f6f4ef" stroke="rgba(173,185,198,0.7)" stroke-width="2" />
+                  <circle cx="88" cy="39" r="6" fill="#f4d38b" />
+                </svg>
+              </div>
+              <div class="immersive-object-meta">
+                <strong data-i18n="biology.objects.plant">???? ?????</strong>
+                <span data-i18n="common.dragDrop">???? ?????</span>
+              </div>
+            </button>
+          </div>
+          <button id="biology-reset" class="secondary immersive-reset-button" data-i18n="biology.actions.reset" type="button">????? ???????</button>
+        </div>
+
+        <div class="immersive-info-card">
+          <span data-i18n="biology.tools.label">???????</span>
+          <p data-i18n="biology.tools.value">???? ????? ?? ???? ?????? ??? ???? ????? ????? ???? ?? ????.</p>
+        </div>
+
+        <div class="immersive-columns">
+          <div class="immersive-note-block">
+            <h3 data-i18n="biology.observation.title">???? ??????</h3>
+            <p id="biology-observation">??????? ??????? ?? ???? ?????.</p>
+          </div>
+          <div class="immersive-note-block">
+            <h3 data-i18n="biology.result.title">???????</h3>
+            <p id="biology-result">??? ?????? ??? ????? ?? ?? ?????? ???? ??????? ??????? ??????.</p>
+          </div>
+        </div>
+
+        <div class="immersive-note" data-i18n-html="biology.explanationHtml">
+          <strong>???????:</strong> ???? ????? ????? ????? ???? ????? ?? ?????? ??? ??????. ?????? ???? ?? ????? ???? ??? ??????? ??????? ??????? ???????? ???? ??????.
+        </div>
+      </aside>
+
+      <div class="immersive-stage biology-stage" id="biology-stage">
+        <div id="biology-viewport" class="immersive-viewport"></div>
+        <div class="immersive-drop-banner" data-i18n="biology.dropBanner">???? ??????? ??? ????? ???????</div>
+        <div class="immersive-stage-copy">
+          <div class="immersive-stage-label" data-i18n="biology.stageLabel">???? ????? ???????</div>
+          <h3 data-i18n="biology.stageTitle">??? ???? ????? ???? ?????</h3>
+          <p id="biology-status">???? ????? ?? ??? ?????? ??? ?????? ???? ??????? ??????.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="chemistry-shell" class="immersive-shell" aria-hidden="true">
+    <div class="immersive-main">
+      <aside class="immersive-overlay">
+        <div class="eyebrow" data-i18n="chemistry.eyebrow">?????? ?????</div>
+        <h2 data-i18n="chemistry.title">????? ???? ?? ???</h2>
+        <p data-i18n="chemistry.subtitle">???? ????? ?? ??? ??? ???? ????? ????? ???? ???????? ???? ?????????? ?? ????? ?????? lyc�e ?????? ????.</p>
+
+        <div class="immersive-stat-grid">
+          <div class="immersive-stat">
+            <span data-i18n="chemistry.stats.levelLabel">???????</span>
+            <strong data-i18n="chemistry.stats.levelValue">?????? ?????</strong>
+          </div>
+          <div class="immersive-stat">
+            <span data-i18n="chemistry.stats.reactionLabel">???????</span>
+            <strong data-i18n="chemistry.stats.reactionValue">Zn + HCl</strong>
+          </div>
+          <div class="immersive-stat">
+            <span data-i18n="chemistry.progress.gasLabel">?????</span>
+            <strong id="chemistry-gas-readout">??? ????</strong>
+          </div>
+          <div class="immersive-stat">
+            <span data-i18n="chemistry.progress.flameLabel">?????? ?????</span>
+            <strong id="chemistry-flame-readout">??????? ????????</strong>
+          </div>
+        </div>
+
+        <div class="immersive-tool-shelf">
+          <div class="immersive-tool-head">
+            <span data-i18n="chemistry.palette.title">????? ???????</span>
+            <small data-i18n="chemistry.palette.hint">???? ?????? ?? ???? ???????? ?? ?????? ???? ??????</small>
+          </div>
+          <div class="immersive-object-grid">
+            <button class="immersive-object-card" id="chemistry-tool-zinc" data-lab-object="chemistry-zinc" type="button" draggable="true">
+              <div class="immersive-object-visual" aria-hidden="true">
+                <svg viewBox="0 0 180 120" role="presentation">
+                  <ellipse cx="90" cy="101" rx="42" ry="8" fill="rgba(9,16,23,0.18)" />
+                  <rect x="66" y="26" width="48" height="64" rx="6" fill="#c8d2dc" />
+                  <rect x="74" y="20" width="32" height="76" rx="5" fill="#eef5fb" />
+                  <rect x="78" y="24" width="24" height="68" rx="4" fill="#b8c4cf" />
+                  <path d="M82 32H98" stroke="#8a96a3" stroke-width="2.5" stroke-linecap="round" />
+                  <path d="M82 46H98" stroke="#8a96a3" stroke-width="2.5" stroke-linecap="round" />
+                  <path d="M82 60H98" stroke="#8a96a3" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="immersive-object-meta">
+                <strong data-i18n="chemistry.objects.zinc">???? ???</strong>
+                <span data-i18n="common.dragDrop">???? ?????</span>
+              </div>
+            </button>
+            <button class="immersive-object-card" id="chemistry-tool-acid" data-lab-object="chemistry-acid" type="button" draggable="true">
+              <div class="immersive-object-visual" aria-hidden="true">
+                <svg viewBox="0 0 180 120" role="presentation">
+                  <ellipse cx="90" cy="101" rx="42" ry="8" fill="rgba(10,16,22,0.18)" />
+                  <rect x="76" y="12" width="28" height="18" rx="6" fill="#dce7ef" />
+                  <rect x="68" y="24" width="44" height="56" rx="12" fill="#eaf5ff" opacity="0.85" />
+                  <rect x="72" y="48" width="36" height="28" rx="10" fill="#8fd0ff" />
+                  <path d="M90 80L98 96H82L90 80Z" fill="#6fb4ff" />
+                  <rect x="70" y="36" width="40" height="6" rx="3" fill="#c2d3df" />
+                </svg>
+              </div>
+              <div class="immersive-object-meta">
+                <strong data-i18n="chemistry.objects.acid">??? HCl</strong>
+                <span data-i18n="common.dragDrop">???? ?????</span>
+              </div>
+            </button>
+            <button class="immersive-object-card" id="chemistry-tool-flame" data-lab-object="chemistry-flame" type="button" draggable="true">
+              <div class="immersive-object-visual" aria-hidden="true">
+                <svg viewBox="0 0 180 120" role="presentation">
+                  <ellipse cx="90" cy="101" rx="42" ry="8" fill="rgba(10,16,22,0.18)" />
+                  <rect x="50" y="70" width="76" height="10" rx="5" fill="#7b5a37" transform="rotate(-18 50 70)" />
+                  <path d="M117 38C107 49 109 58 117 64C127 60 130 50 124 42C124 42 123 35 117 38Z" fill="#5fa8ff" />
+                  <path d="M117 45C112 51 113 56 117 59C121 57 123 52 120 47C120 47 119 43 117 45Z" fill="#eef8ff" />
+                </svg>
+              </div>
+              <div class="immersive-object-meta">
+                <strong data-i18n="chemistry.objects.flame">??? ????????</strong>
+                <span data-i18n="common.dragDrop">???? ?????</span>
+              </div>
+            </button>
+          </div>
+          <button id="chemistry-reset" class="secondary immersive-reset-button" data-i18n="chemistry.actions.reset" type="button">????? ???????</button>
+        </div>
+
+        <div class="immersive-info-card">
+          <span data-i18n="chemistry.tools.label">???????</span>
+          <p data-i18n="chemistry.tools.value">???? ??? Zn? ??? ???? ????? HCl? ?????? ?????? ?? ????.</p>
+        </div>
+
+        <div class="immersive-columns">
+          <div class="immersive-note-block">
+            <h3 data-i18n="chemistry.observation.title">???? ??????</h3>
+            <p id="chemistry-observation">?? ???? ?????? ???? ??? ??????? ?? ????.</p>
+          </div>
+          <div class="immersive-note-block">
+            <h3 data-i18n="chemistry.result.title">??????</h3>
+            <p id="chemistry-result">??? ????? ????? ?????? ??? ?????????? H2 ???? ?????? ????? ZnCl2.</p>
+          </div>
+        </div>
+
+        <div class="immersive-note chemistry-equation" id="chemistry-equation" data-i18n-html="chemistry.equationHtml">
+          <strong>????????:</strong> Zn + 2HCl ? H2 + ZnCl2
+        </div>
+      </aside>
+
+      <div class="immersive-stage chemistry-stage" id="chemistry-stage">
+        <div id="chemistry-viewport" class="immersive-viewport"></div>
+        <div class="immersive-drop-banner" data-i18n="chemistry.dropBanner">???? ?????? ??? ???? ???????</div>
+        <div class="immersive-stage-copy">
+          <div class="immersive-stage-label" data-i18n="chemistry.stageLabel">???? ??????</div>
+          <h3 data-i18n="chemistry.stageTitle">????? ?????? ??????? ???</h3>
+          <p id="chemistry-status">???? ???? ????? ???? ??????? ?? ??? ????? ??????? ???????.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js",
+        "three/examples/jsm/": "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module" src="./assets/js/lab-runtime.js"></script>
+</body>
+</html>
+
+

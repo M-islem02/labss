@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VirtuLab - Tableau de bord enseignant</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="teacher-dashboard" data-lang="fr">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">V</span>
+        <span>
+          <strong>VirtuLab</strong>
+          <small><span class="lang-fr">Plateforme de laboratoire intelligent</span><span class="lang-ar">منصة المختبر الذكي الافتراضي</span></small>
+        </span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="topbar-nav">
+        <div class="student-pill"><span class="lang-fr">Profil</span><span class="lang-ar">الملف</span><strong data-student-display></strong></div>
+        <div class="lang-switch"><button type="button" class="lang-btn" data-lang="fr">FR</button><button type="button" class="lang-btn" data-lang="ar">AR</button></div>
+        <button type="button" class="secondary-btn logout-btn"><span class="lang-fr">Se deconnecter</span><span class="lang-ar">تسجيل الخروج</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-intro fade-up">
+      <span class="eyebrow">VirtuLab</span>
+      <h1><span class="lang-fr">Tableau de bord enseignant</span><span class="lang-ar">لوحة الأستاذ</span></h1>
+      <p><span class="lang-fr">Consultez les resultats, filtrez une classe et ouvrez le detail d'un eleve.</span><span class="lang-ar">اطلع على النتائج، صفِّ البيانات حسب القسم، وافتح تفاصيل كل متعلم.</span></p>
+    </section>
+
+    <section class="teacher-layout">
+      <article class="panel-card fade-up delay-1">
+        <div class="toolbar">
+          <label class="filter-field">
+            <span class="lang-fr">Filtrer par code classe</span>
+            <span class="lang-ar">التصفية حسب رمز القسم</span>
+            <input type="text" id="class-filter" data-placeholder-fr="Exemple : CEM2026" data-placeholder-ar="مثال: CEM2026">
+          </label>
+          <button type="button" class="secondary-btn" id="sort-score-btn"><span class="lang-fr">Trier par score</span><span class="lang-ar">ترتيب حسب النتيجة</span></button>
+        </div>
+        <div class="teacher-meta"><div class="badge badge-light"><span class="lang-fr">Code classe enseignant : CEM2026</span><span class="lang-ar">رمز قسم الأستاذ: CEM2026</span></div></div>
+        <div class="table-wrap">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th><span class="lang-fr">Nom eleve</span><span class="lang-ar">اسم المتعلم</span></th>
+                <th><span class="lang-fr">Classe</span><span class="lang-ar">القسم</span></th>
+                <th><span class="lang-fr">Experience</span><span class="lang-ar">التجربة</span></th>
+                <th><span class="lang-fr">Score</span><span class="lang-ar">النتيجة</span></th>
+                <th><span class="lang-fr">Evaluation IA</span><span class="lang-ar">تقييم الذكاء الاصطناعي</span></th>
+              </tr>
+            </thead>
+            <tbody id="teacher-table-body"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="side-stack">
+        <article class="panel-card fade-up delay-2">
+          <div class="panel-head">
+            <h2><span class="lang-fr">Code pour les eleves</span><span class="lang-ar">رمز للتلاميذ</span></h2>
+            <p><span class="lang-fr">Creez un code simple. L'eleve le saisit au depart et voit seulement l'activite choisie.</span><span class="lang-ar">أنشئ رمزا بسيطا. يدخله التلميذ في البداية فيرى النشاط المختار فقط.</span></p>
+          </div>
+          <form id="lab-code-form" class="code-generator-form">
+            <label>
+              <span class="lang-fr">Niveau</span>
+              <span class="lang-ar">المستوى</span>
+              <select name="codeLevel">
+                <option value="primary">Primaire</option>
+                <option value="cem" selected>CEM</option>
+                <option value="lycee">Lycee</option>
+              </select>
+            </label>
+            <label>
+              <span class="lang-fr">Activite</span>
+              <span class="lang-ar">النشاط</span>
+              <select name="codeExperiment">
+                <option value="plante">Absorption de l'eau par la plante</option>
+                <option value="circuit">Circuit electrique</option>
+                <option value="masse">Masses et balance</option>
+                <option value="chimie">Reaction produisant l'hydrogene</option>
+              </select>
+            </label>
+            <button type="submit" class="primary-btn"><span class="lang-fr">Creer le code</span><span class="lang-ar">إنشاء الرمز</span></button>
+          </form>
+          <div id="lab-code-list" class="generated-code-list"></div>
+        </article>
+
+        <article class="panel-card fade-up delay-2">
+          <div class="panel-head">
+            <h2><span class="lang-fr">Detail eleve</span><span class="lang-ar">تفاصيل المتعلم</span></h2>
+            <p><span class="lang-fr">Cliquez sur une ligne du tableau pour afficher l'analyse detaillee.</span><span class="lang-ar">انقر على سطر في الجدول لعرض التحليل المفصل.</span></p>
+          </div>
+          <div id="student-detail" class="detail-card"></div>
+        </article>
+
+        <article class="panel-card fade-up delay-3">
+          <div class="panel-head">
+            <h2><span class="lang-fr">AI Insights</span><span class="lang-ar">رؤى الذكاء الاصطناعي</span></h2>
+            <p><span class="lang-fr">Resume automatique des performances du groupe.</span><span class="lang-ar">ملخص آلي لأداء المجموعة.</span></p>
+          </div>
+          <div id="teacher-insights" class="insights-list"></div>
+        </article>
+      </aside>
+    </section>
+  </main>
+
+  <div id="assistant-root"></div>
+  <script defer src="script.js"></script>
+</body>
+</html>

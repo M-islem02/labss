@@ -1,0 +1,3 @@
+[submodule "Laboratory-Simulator-sparse"]
+	path = Laboratory-Simulator-sparse
+	url = https://github.com/chamx2/Laboratory-Simulator.git

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VirtuLab Redirect</title>
+</head>
+<body>
+  <script>
+    const lang = localStorage.getItem('virtulabLanguage') || localStorage.getItem('lab-language') || 'fr';
+    window.location.replace(`./lab-view.html?lab=chemistry&single=1&lang=${encodeURIComponent(lang)}`);
+  </script>
+  <p>Redirection vers le labo 3D...</p>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VirtuLab - Experiences</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="experiences" data-lang="fr">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">V</span>
+        <span>
+          <strong>VirtuLab</strong>
+          <small><span class="lang-fr">Labo virtuel simple pour apprendre</span><span class="lang-ar">مختبر افتراضي بسيط للتعلم</span></small>
+        </span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="topbar-nav">
+        <div class="student-pill"><span class="lang-fr">Profil</span><span class="lang-ar">الملف</span><strong data-student-display></strong></div>
+        <div class="lang-switch"><button type="button" class="lang-btn" data-lang="fr">FR</button><button type="button" class="lang-btn" data-lang="ar">AR</button></div>
+        <button type="button" class="secondary-btn logout-btn"><span class="lang-fr">Se deconnecter</span><span class="lang-ar">تسجيل الخروج</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-intro fade-up">
+      <span class="eyebrow">VirtuLab</span>
+      <h1><span class="lang-fr">Choisir une experience</span><span class="lang-ar">اختيار تجربة</span></h1>
+      <p data-experiences-summary></p>
+    </section>
+
+    <section class="panel-card fade-up delay-1 simple-flow-card">
+      <div class="simple-flow-grid">
+        <div><strong>1</strong><span class="lang-fr">Choisis une carte</span><span class="lang-ar">اختر بطاقة</span></div>
+        <div><strong>2</strong><span class="lang-fr">Ouvre le labo 3D</span><span class="lang-ar">افتح المختبر الثلاثي</span></div>
+        <div><strong>3</strong><span class="lang-fr">Termine puis passe au quiz</span><span class="lang-ar">أنه التجربة ثم انتقل إلى الاختبار</span></div>
+      </div>
+    </section>
+
+    <section class="card-grid experiments-grid fade-up delay-2" id="experiment-grid">
+      <article class="experiment-card available" data-experiment-card="circuit">
+        <div class="card-top"><span class="badge badge-blue"><span class="lang-fr">Physique</span><span class="lang-ar">الفيزياء</span></span><span class="duration">5 min</span></div>
+        <h2><span class="lang-fr">Circuit electrique</span><span class="lang-ar">الدائرة الكهربائية</span></h2>
+        <p><span class="lang-fr">Construis un circuit simple avec la pile, la lampe et l interrupteur.</span><span class="lang-ar">ابن دائرة بسيطة بالبطارية والمصباح والمفتاح.</span></p>
+        <div class="linked-lab-chip"><span class="lang-fr">Tu vas apprendre a fermer correctement un circuit.</span><span class="lang-ar">ستتعلم كيف تغلق الدائرة بشكل صحيح.</span></div>
+        <a class="primary-btn" href="circuit.html"><span class="lang-fr">Demarrer</span><span class="lang-ar">ابدأ</span></a>
+      </article>
+
+      <article class="experiment-card available" data-experiment-card="plante">
+        <div class="card-top"><span class="badge badge-teal"><span class="lang-fr">Sciences naturelles</span><span class="lang-ar">العلوم الطبيعية</span></span><span class="duration">7 min</span></div>
+        <h2><span class="lang-fr">Absorption de l'eau par la plante</span><span class="lang-ar">امتصاص الماء عند النبات</span></h2>
+        <p><span class="lang-fr">Observe comment l eau monte dans la plante et change la couleur.</span><span class="lang-ar">راقب كيف يصعد الماء في النبات ويغير اللون.</span></p>
+        <div class="linked-lab-chip"><span class="lang-fr">Tu vas voir le trajet de l eau dans la tige.</span><span class="lang-ar">سترى مسار الماء داخل الساق.</span></div>
+        <a class="primary-btn" href="plante.html"><span class="lang-fr">Demarrer</span><span class="lang-ar">ابدأ</span></a>
+      </article>
+
+      <article class="experiment-card available" data-experiment-card="masse">
+        <div class="card-top"><span class="badge badge-orange"><span class="lang-fr">Physique</span><span class="lang-ar">الفيزياء</span></span><span class="duration">10 min</span></div>
+        <h2><span class="lang-fr">Masses et balance</span><span class="lang-ar">الكتل والميزان</span></h2>
+        <p><span class="lang-fr">Ajoute des masses pour equilibrer la balance et trouver la bonne valeur.</span><span class="lang-ar">أضف كتلا لموازنة الميزان ومعرفة القيمة الصحيحة.</span></p>
+        <div class="linked-lab-chip"><span class="lang-fr">Tu vas comparer les masses comme dans un vrai labo.</span><span class="lang-ar">ستقارن بين الكتل كما في مختبر حقيقي.</span></div>
+        <a class="primary-btn" href="masse.html"><span class="lang-fr">Demarrer</span><span class="lang-ar">ابدأ</span></a>
+      </article>
+
+      <article class="experiment-card available" data-experiment-card="chimie">
+        <div class="card-top"><span class="badge badge-green"><span class="lang-fr">Chimie</span><span class="lang-ar">الكيمياء</span></span><span class="duration">8 min</span></div>
+        <h2><span class="lang-fr">Reaction produisant l'hydrogene</span><span class="lang-ar">تفاعل إنتاج غاز الهيدروجين</span></h2>
+        <p><span class="lang-fr">Suis une reaction simple pour observer le degagement d un gaz.</span><span class="lang-ar">تابع تفاعلا بسيطا لملاحظة انطلاق غاز.</span></p>
+        <div class="linked-lab-chip"><span class="lang-fr">Tu apprendras l ordre correct des etapes de securite.</span><span class="lang-ar">ستتعلم الترتيب الصحيح لخطوات السلامة.</span></div>
+        <a class="primary-btn" href="chimie.html"><span class="lang-fr">Demarrer</span><span class="lang-ar">ابدأ</span></a>
+      </article>
+    </section>
+  </main>
+
+  <div id="assistant-root"></div>
+  <script defer src="script.js"></script>
+</body>
+</html>

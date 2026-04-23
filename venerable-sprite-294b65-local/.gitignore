@@ -1,0 +1,15 @@
+# Local server logs
+server*.log
+netlify-dev*.log
+*-error.log
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Netlify local state
+.netlify/
+
+# OS/editor temporary files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VirtuLab - Connexion enseignant</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="teacher-login" data-lang="fr">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">V</span>
+        <span>
+          <strong>VirtuLab</strong>
+          <small>
+            <span class="lang-fr">Plateforme de laboratoire intelligent</span>
+            <span class="lang-ar">منصة المختبر الذكي الافتراضي</span>
+          </small>
+        </span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="topbar-nav">
+        <div class="student-pill">
+          <span class="lang-fr">Profil</span>
+          <span class="lang-ar">الملف</span>
+          <strong data-student-display></strong>
+        </div>
+        <div class="lang-switch">
+          <button type="button" class="lang-btn" data-lang="fr">FR</button>
+          <button type="button" class="lang-btn" data-lang="ar">AR</button>
+        </div>
+        <button type="button" class="secondary-btn logout-btn">
+          <span class="lang-fr">Se deconnecter</span>
+          <span class="lang-ar">تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell narrow-shell">
+    <section class="page-intro fade-up">
+      <span class="eyebrow">VirtuLab</span>
+      <h1>
+        <span class="lang-fr">Connexion enseignant</span>
+        <span class="lang-ar">دخول الأستاذ</span>
+      </h1>
+      <p>
+        <span class="lang-fr">Accedez au tableau de suivi avec les identifiants de demonstration.</span>
+        <span class="lang-ar">ادخل إلى لوحة المتابعة باستعمال بيانات العرض التجريبية.</span>
+      </p>
+    </section>
+
+    <section class="form-card fade-up delay-1">
+      <form id="teacher-login-form" class="stack-form">
+        <label>
+          <span class="lang-fr">Nom d'utilisateur</span>
+          <span class="lang-ar">اسم المستخدم</span>
+          <input type="text" name="username" required value="admin">
+        </label>
+        <label>
+          <span class="lang-fr">Mot de passe</span>
+          <span class="lang-ar">كلمة المرور</span>
+          <input type="password" name="password" required value="1234">
+        </label>
+        <button class="primary-btn" type="submit">
+          <span class="lang-fr">Se connecter</span>
+          <span class="lang-ar">تسجيل الدخول</span>
+        </button>
+        <p class="form-note">
+          <span class="lang-fr">Identifiants de demonstration : admin / 1234</span>
+          <span class="lang-ar">بيانات العرض: admin / 1234</span>
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <div id="assistant-root"></div>
+  <script defer src="script.js"></script>
+</body>
+</html>

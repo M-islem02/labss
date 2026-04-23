@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VirtuLab - Resultat</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="result" data-lang="fr">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">V</span>
+        <span>
+          <strong>VirtuLab</strong>
+          <small><span class="lang-fr">Labo virtuel simple pour apprendre</span><span class="lang-ar">مختبر افتراضي بسيط للتعلم</span></small>
+        </span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+      <div class="topbar-nav">
+        <div class="student-pill"><span class="lang-fr">Profil</span><span class="lang-ar">الملف</span><strong data-student-display></strong></div>
+        <div class="lang-switch"><button type="button" class="lang-btn" data-lang="fr">FR</button><button type="button" class="lang-btn" data-lang="ar">AR</button></div>
+        <button type="button" class="secondary-btn logout-btn"><span class="lang-fr">Se deconnecter</span><span class="lang-ar">تسجيل الخروج</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell narrow-shell">
+    <section class="page-intro fade-up">
+      <span class="eyebrow">VirtuLab</span>
+      <h1><span class="lang-fr">Tu as termine l activite</span><span class="lang-ar">أنهيت النشاط</span></h1>
+      <p><span class="lang-fr">Regarde ton resultat, puis passe au petit quiz de verification.</span><span class="lang-ar">اطلع على نتيجتك ثم انتقل إلى الاختبار القصير.</span></p>
+    </section>
+
+    <section class="result-card fade-up delay-1" id="result-card">
+      <div class="score-ring" data-result-score>0</div>
+      <div class="result-main">
+        <h2 data-result-title></h2>
+        <p class="result-badge" data-result-badge></p>
+        <p data-result-summary></p>
+        <div class="tip-box">
+          <h3><span class="lang-fr">Conseil simple</span><span class="lang-ar">نصيحة بسيطة</span></h3>
+          <p data-result-tip></p>
+        </div>
+        <div class="result-stats">
+          <div class="stat-tile"><strong data-result-steps></strong><span><span class="lang-fr">etapes reussies</span><span class="lang-ar">خطوات ناجحة</span></span></div>
+          <div class="stat-tile"><strong data-result-errors></strong><span><span class="lang-fr">alertes</span><span class="lang-ar">تنبيهات</span></span></div>
+          <div class="stat-tile"><strong data-result-time></strong><span><span class="lang-fr">temps</span><span class="lang-ar">الوقت</span></span></div>
+        </div>
+        <div class="hero-actions">
+          <a class="primary-btn" href="quiz.html"><span class="lang-fr">Passer le quiz</span><span class="lang-ar">الانتقال إلى الاختبار</span></a>
+          <a class="secondary-btn" href="experiences.html"><span class="lang-fr">Retour aux experiences</span><span class="lang-ar">العودة إلى التجارب</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="assistant-root"></div>
+  <script defer src="script.js"></script>
+</body>
+</html>

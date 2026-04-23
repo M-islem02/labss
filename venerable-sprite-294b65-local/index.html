@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VirtuLab - Accueil</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="index" data-lang="fr">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">V</span>
+        <span>
+          <strong>VirtuLab</strong>
+          <small>
+            <span class="lang-fr">Labo virtuel simple pour apprendre</span>
+            <span class="lang-ar">مختبر افتراضي بسيط للتعلم</span>
+          </small>
+        </span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="topbar-nav">
+        <div class="student-pill">
+          <span class="lang-fr">Profil</span>
+          <span class="lang-ar">الملف</span>
+          <strong data-student-display></strong>
+        </div>
+
+        <div class="lang-switch">
+          <button type="button" class="lang-btn" data-lang="fr">FR</button>
+          <button type="button" class="lang-btn" data-lang="ar">AR</button>
+        </div>
+
+        <button type="button" class="secondary-btn logout-btn">
+          <span class="lang-fr">Se deconnecter</span>
+          <span class="lang-ar">تسجيل الخروج</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-card">
+      <div class="loading-logo">VirtuLab</div>
+      <p>
+        <span class="lang-fr">Preparation du laboratoire...</span>
+        <span class="lang-ar">جاري تحضير المختبر...</span>
+      </p>
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <main class="page-shell hero-shell" id="main-content">
+    <section class="hero-grid fade-up">
+      <div class="hero-copy">
+        <span class="eyebrow">VirtuLab</span>
+        <h1>
+          <span class="lang-fr">Apprendre les sciences avec des experiences faciles</span>
+          <span class="lang-ar">تعلم العلوم بتجارب سهلة وواضحة</span>
+        </h1>
+        <p class="hero-subtitle">
+          <span class="lang-fr">Le parcours est simple : ecris ton prenom, choisis ta matiere, puis ouvre un labo 3D avec des consignes courtes.</span>
+          <span class="lang-ar">المسار بسيط: اكتب اسمك، اختر مادتك، ثم افتح مختبرا ثلاثي الأبعاد بتعليمات قصيرة.</span>
+        </p>
+
+        <div class="hero-step-list">
+          <div class="hero-step">
+            <strong>1</strong>
+            <span class="lang-fr">Entre ton prenom</span>
+            <span class="lang-ar">أدخل اسمك</span>
+          </div>
+          <div class="hero-step">
+            <strong>2</strong>
+            <span class="lang-fr">Choisis la matiere</span>
+            <span class="lang-ar">اختر المادة</span>
+          </div>
+          <div class="hero-step">
+            <strong>3</strong>
+            <span class="lang-fr">Commence l experience</span>
+            <span class="lang-ar">ابدأ التجربة</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a class="primary-btn" href="student.html">
+            <span class="lang-fr">Commencer comme eleve</span>
+            <span class="lang-ar">ابدأ كمتعلم</span>
+          </a>
+          <a class="secondary-btn" href="prof-login.html">
+            <span class="lang-fr">Espace enseignant</span>
+            <span class="lang-ar">فضاء الأستاذ</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-card glass-card fade-up delay-1">
+        <div class="hero-stat">
+          <strong>4</strong>
+          <span>
+            <span class="lang-fr">experiences prêtes</span>
+            <span class="lang-ar">تجارب جاهزة</span>
+          </span>
+        </div>
+        <div class="hero-stat">
+          <strong>2</strong>
+          <span>
+            <span class="lang-fr">langues disponibles</span>
+            <span class="lang-ar">لغتان متاحتان</span>
+          </span>
+        </div>
+        <div class="hero-stat">
+          <strong>3D</strong>
+          <span>
+            <span class="lang-fr">labo visuel pour mieux comprendre</span>
+            <span class="lang-ar">مختبر بصري للفهم أفضل</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-grid fade-up delay-2">
+      <article class="info-card">
+        <h2>
+          <span class="lang-fr">Etapes courtes</span>
+          <span class="lang-ar">خطوات قصيرة</span>
+        </h2>
+        <p>
+          <span class="lang-fr">Chaque activite avance avec de petites consignes faciles a suivre.</span>
+          <span class="lang-ar">كل نشاط يتقدم بتعليمات صغيرة وسهلة المتابعة.</span>
+        </p>
+      </article>
+      <article class="info-card">
+        <h2>
+          <span class="lang-fr">Grandes cartes</span>
+          <span class="lang-ar">بطاقات كبيرة</span>
+        </h2>
+        <p>
+          <span class="lang-fr">Les choix importants apparaissent sous forme de boutons grands et clairs.</span>
+          <span class="lang-ar">الخيارات المهمة تظهر على شكل أزرار كبيرة وواضحة.</span>
+        </p>
+      </article>
+      <article class="info-card">
+        <h2>
+          <span class="lang-fr">Petit quiz final</span>
+          <span class="lang-ar">اختبار قصير في النهاية</span>
+        </h2>
+        <p>
+          <span class="lang-fr">A la fin, l eleve voit son score et verifie ce qu il a compris.</span>
+          <span class="lang-ar">في النهاية يرى المتعلم نتيجته ويتحقق مما فهمه.</span>
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <div id="assistant-root"></div>
+  <script defer src="script.js"></script>
+</body>
+</html>

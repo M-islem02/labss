@@ -1,0 +1,58 @@
+Project: Educational laboratory platform in Arabic
+
+Workspace root:
+c:\Users\Morsi Store DZ\Desktop\LAB\venerable-sprite-294b65-local
+
+Current app type:
+- Static site
+- Main page: index.html
+- Styles: assets/css/lab-app.css
+- Frontend logic: assets/js/app.js
+- Netlify config: netlify.toml
+- Netlify function for Gemini: netlify/functions/gemini-chat.js
+
+What is already implemented:
+- Arabic educational landing page with visitor and professor sections
+- Public labs, quizzes, and replies rendered from localStorage-backed state
+- Professor login and dashboard management
+- Floating chatbot bubble at the bottom-right
+- Gemini chat request flow through /api/chat using a Netlify Function
+- Mojibake/Arabic text repair logic in app.js
+- Floating Home button at the bottom-left linking back to #top
+
+Important behavior and constraints:
+- Arabic UI, rtl layout
+- Keep files UTF-8
+- Do not expose GEMINI_API_KEY in frontend code
+- Gemini requests must stay server-side via Netlify Functions
+- Existing chatbot UI uses:
+  - #chatbot-widget
+  - #chatbot-toggle
+  - #chatbot-panel
+  - #chatbot-close
+  - #chatbot-form
+  - #chatbot-input
+  - #chatbot-status
+  - #chatbot-messages
+
+Known deployment details:
+- Live site: https://venerable-sprite-294b65.netlify.app
+- /api/chat exists but requires GEMINI_API_KEY in Netlify env vars to function live
+
+If you continue work on this project:
+1. Preserve the current Arabic UI and glassmorphism visual style.
+2. Keep the floating chat bubble behavior.
+3. Prefer editing only these files unless needed:
+   - index.html
+   - assets/css/lab-app.css
+   - assets/js/app.js
+   - netlify/functions/gemini-chat.js
+4. If text displays wrong, check encoding and localStorage state before rewriting content.
+5. If deploying, use Netlify with the linked project in this directory.
+
+Suggested next tasks another agent can help with:
+- Improve chatbot design and animation
+- Add chat history persistence per session
+- Add professor controls for chatbot welcome message
+- Add a button to clear corrupted localStorage data
+- Improve mobile spacing and floating controls overlap
