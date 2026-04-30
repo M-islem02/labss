@@ -602,6 +602,136 @@ body[data-lang="ar"] .hero-quote {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.dashboard-page {
+  max-width: 1180px;
+}
+
+.dashboard-hero {
+  text-align: center;
+}
+
+.dashboard-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.dashboard-flow div {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(238, 246, 255, 0.88);
+  color: var(--navy);
+  text-align: center;
+  box-shadow: 0 10px 22px rgba(16, 59, 115, 0.06);
+}
+
+.dashboard-flow strong {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.dashboard-flow span {
+  display: block;
+}
+
+.dashboard-selected-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.selected-level-panel {
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid rgba(16, 59, 115, 0.08);
+  border-left: 6px solid var(--level-accent);
+  box-shadow: var(--shadow);
+}
+
+body[data-lang="ar"] .selected-level-panel {
+  border-left-width: 1px;
+  border-right: 6px solid var(--level-accent);
+}
+
+.selected-level-art {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(4rem, 9vw, 6rem);
+  background: color-mix(in srgb, var(--level-accent) 22%, white);
+}
+
+.selected-level-copy {
+  padding: 24px;
+}
+
+.selected-level-copy h2 {
+  margin: 14px 0 10px;
+}
+
+.selected-level-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.selected-level-meta span,
+.subject-action {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(31, 111, 235, 0.1);
+  color: var(--navy);
+  font-weight: 800;
+}
+
+.subject-panel {
+  min-height: 100%;
+}
+
+.subject-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.visual-subject-card {
+  min-height: 230px;
+  border-radius: 8px;
+  border-left: 5px solid var(--level-accent);
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--level-accent) 12%, white), #fff);
+}
+
+body[data-lang="ar"] .visual-subject-card {
+  border-left-width: 2px;
+  border-right: 5px solid var(--level-accent);
+}
+
+.subject-photo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 96px;
+  border-radius: 8px;
+  font-size: 4rem;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9), transparent 40%),
+    color-mix(in srgb, var(--level-accent) 18%, white);
+}
+
 .panel-head {
   margin-bottom: 18px;
 }
@@ -1671,7 +1801,8 @@ body[data-lang="ar"] .level-showcase-card {
 .student-page,
 .experiences-page {
   margin-top: 24px;
-  padding-top: 32px;
+  padding: 24px;
+  max-width: 1180px;
 }
 
 .student-mascot {
@@ -1755,6 +1886,7 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
   border-radius: 24px;
   padding: 24px;
   box-shadow: 0 18px 40px rgba(16, 59, 115, 0.18);
+  margin-bottom: 24px;
 }
 
 .level-experience-banner .eyebrow {
@@ -1786,6 +1918,7 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
 .dynamic-experiences-grid {
   margin-top: 24px;
   align-items: stretch;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
 }
 
 .level-experience-card {
@@ -1795,9 +1928,27 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
+.available-card {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(240px, 0.75fr) minmax(0, 1.25fr);
+  align-items: stretch;
+  min-height: 320px;
+  background: #fff;
+}
+
 .level-experience-card > :not(.experience-art) {
   margin-left: 22px;
   margin-right: 22px;
+}
+
+.available-card > :not(.experience-art) {
+  grid-column: 2;
+}
+
+.available-card .experience-art {
+  grid-row: 1 / span 6;
+  min-height: 100%;
 }
 
 .experience-art {
@@ -1807,9 +1958,46 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
   background: color-mix(in srgb, var(--level-accent) 18%, white);
 }
 
+.science-photo {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 26% 22%, rgba(255, 255, 255, 0.95), transparent 24%),
+    radial-gradient(circle at 80% 72%, color-mix(in srgb, var(--level-accent) 34%, white), transparent 30%),
+    linear-gradient(135deg, color-mix(in srgb, var(--level-accent) 18%, white), #ffffff);
+}
+
+.science-photo::before,
+.science-photo::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.science-photo::before {
+  width: 150px;
+  height: 150px;
+  top: 28px;
+  inset-inline-start: 28px;
+}
+
+.science-photo::after {
+  width: 90px;
+  height: 90px;
+  bottom: 34px;
+  inset-inline-end: 34px;
+}
+
 .experience-art span {
+  position: relative;
+  z-index: 1;
   font-size: 5rem;
   animation: science-float 3s ease-in-out infinite;
+}
+
+.available-card .experience-art span {
+  font-size: clamp(6rem, 12vw, 9rem);
 }
 
 .subject-badge {
@@ -1823,6 +2011,10 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
   display: grid;
   gap: 6px;
   margin-top: 16px;
+}
+
+.available-card h2 {
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
 }
 
 .level-experience-card p {
@@ -1845,6 +2037,7 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
   opacity: 0.55;
   cursor: not-allowed;
   pointer-events: none;
+  min-height: 290px;
 }
 
 .coming-soon-card .locked-art {
@@ -1905,6 +2098,21 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
     grid-template-columns: 1fr;
   }
 
+  .dashboard-selected-layout,
+  .available-card {
+    grid-template-columns: 1fr;
+  }
+
+  .available-card > :not(.experience-art),
+  .available-card .experience-art {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .dynamic-experiences-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+
   .hero-visual {
     min-height: 220px;
   }
@@ -1953,6 +2161,7 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
 
   .experiment-layout-embedded,
   .simple-flow-grid,
+  .dashboard-flow,
   .hero-step-list,
   .quick-level-grid,
   .student-form-grid {
@@ -1991,6 +2200,14 @@ body[data-lang="ar"] .visual-level-grid .level-choice {
   .student-page,
   .experiences-page {
     border-radius: 18px;
+  }
+
+  .experiences-page {
+    padding: 16px;
+  }
+
+  .dynamic-experiences-grid {
+    grid-template-columns: 1fr;
   }
 
   .hero-visual {

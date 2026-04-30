@@ -89,6 +89,15 @@ const LEVEL_META = {
   lycee: { accent: "#9C27B0", icons: "🎓🔬💡", className: "level-lycee" }
 };
 
+const SUBJECT_ICONS = {
+  "science-education": "🌱",
+  "natural-sciences": "🌿",
+  physics: "⚡",
+  svt: "🧬",
+  "physics-chemistry": "⚗️",
+  "organic-chemistry": "🧪"
+};
+
 const LEVEL_EXPERIENCES = {
   primaire: [
     {
@@ -914,14 +923,17 @@ function renderSubjects(level) {
     return;
   }
   const subjects = SUBJECTS[level] || [];
+  const meta = LEVEL_META[level] || LEVEL_META.cem;
   subjectGrid.classList.remove("empty-state");
   subjectGrid.innerHTML = subjects.map((subject) => {
-    const hint = SUBJECT_HINTS[subject.id] || { fr: "Choisissez cette matiere pour continuer.", ar: "اختر هذه المادة للمتابعة." };
+    const hint = SUBJECT_HINTS[subject.id] || { fr: "Choisissez cette matière pour continuer.", ar: "اختر هذه المادة للمتابعة.", en: "Choose this subject to continue." };
+    const icon = SUBJECT_ICONS[subject.id] || "🔬";
     return `
-      <button type="button" class="selection-card subject-card" data-level="${level}" data-subject="${subject.id}">
-        <strong>${dualText(subject.fr, subject.ar)}</strong>
-        <span class="subject-hint">${dualText(hint.fr, hint.ar)}</span>
-        <span>${dualText("Voir mes experiences", "عرض تجاربي")}</span>
+      <button type="button" class="selection-card subject-card visual-subject-card" data-level="${level}" data-subject="${subject.id}" style="--level-accent:${meta.accent}">
+        <span class="subject-photo" aria-hidden="true">${icon}</span>
+        <strong>${dualText(subject.fr, subject.ar, subject.en || subject.fr)}</strong>
+        <span class="subject-hint">${dualText(hint.fr, hint.ar, hint.en || hint.fr)}</span>
+        <span class="subject-action">${dualText("Voir mes expériences", "عرض تجاربي", "See my experiments")}</span>
       </button>
     `;
   }).join("");
@@ -938,23 +950,41 @@ function renderSubjects(level) {
 function initDashboard() {
   const welcome = document.querySelector("[data-dashboard-welcome]");
   const studentName = localStorage.getItem(STORAGE.studentName) || "";
+  const savedLevel = normalizeLevelKey(localStorage.getItem(STORAGE.currentLevel) || "cem");
+  const levelLabel = LEVEL_LABELS[savedLevel] || LEVEL_LABELS.cem;
   if (welcome) {
     welcome.innerHTML = studentName
-      ? dualText(`Bienvenue ${studentName}. Choisissez votre niveau puis votre matiere.`, `مرحبا ${studentName}. اختر مستواك ثم المادة.`)
-      : dualText("Choisissez votre niveau puis votre matiere.", "اختر مستواك ثم المادة.");
+      ? dualText(`Bienvenue ${studentName}. Ton niveau ${levelLabel.fr} est déjà sélectionné.`, `مرحبا ${studentName}. مستوى ${levelLabel.ar} محدد مسبقاً.`, `Welcome ${studentName}. Your ${levelLabel.en} level is already selected.`)
+      : dualText(`Ton niveau ${levelLabel.fr} est déjà sélectionné.`, `مستوى ${levelLabel.ar} محدد مسبقاً.`, `Your ${levelLabel.en} level is already selected.`);
   }
-  const savedLevel = normalizeLevelKey(localStorage.getItem(STORAGE.currentLevel) || "cem");
-  document.querySelectorAll(".level-card").forEach((button) => {
-    if (normalizeLevelKey(button.dataset.level) === savedLevel) button.classList.add("active");
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".level-card").forEach((card) => card.classList.remove("active"));
-      button.classList.add("active");
-      const nextLevel = normalizeLevelKey(button.dataset.level);
-      localStorage.setItem(STORAGE.currentLevel, nextLevel);
-      renderSubjects(nextLevel);
-    });
-  });
+  renderDashboardLevelSummary(savedLevel);
   if (savedLevel) renderSubjects(savedLevel);
+}
+
+function renderDashboardLevelSummary(level) {
+  const panel = document.querySelector("[data-dashboard-level-summary]");
+  if (!panel) return;
+  const meta = LEVEL_META[level] || LEVEL_META.cem;
+  const label = LEVEL_LABELS[level] || LEVEL_LABELS.cem;
+  const subjectCount = (SUBJECTS[level] || []).length;
+  panel.className = `selected-level-panel fade-up delay-2 ${meta.className}`;
+  panel.style.setProperty("--level-accent", meta.accent);
+  panel.innerHTML = `
+    <div class="selected-level-art" aria-hidden="true">${meta.icons}</div>
+    <div class="selected-level-copy">
+      <span class="eyebrow">${dualText("Niveau choisi", "المستوى المختار", "Selected level")}</span>
+      <h2>${localizedTextMarkup(label, "level-title-line")}</h2>
+      <p>${dualText(
+        `Tu verras seulement les activités de ${label.fr}.`,
+        `سترى فقط أنشطة ${label.ar}.`,
+        `You will only see ${label.en} activities.`
+      )}</p>
+      <div class="selected-level-meta">
+        <span>${dualText(`${subjectCount} matière`, `${subjectCount} مادة`, `${subjectCount} subject`)}</span>
+        <span>${dualText("Filtre actif", "الفلتر مفعل", "Filter active")}</span>
+      </div>
+    </div>
+  `;
 }
 
 function parseSavedSubject() {
@@ -1033,6 +1063,15 @@ function initLevelExperiences() {
   }
 }
 
+function experienceHeroText(level, count) {
+  const label = LEVEL_LABELS[level] || LEVEL_LABELS.cem;
+  return {
+    fr: `${count} expérience(s) pour ${label.fr}.`,
+    ar: `${count} تجربة مناسبة لـ ${label.ar}.`,
+    en: `${count} experiment(s) for ${label.en}.`
+  };
+}
+
 function renderLevelExperiencePage(level, list) {
   const lang = currentLanguage();
   const meta = LEVEL_META[level] || LEVEL_META.cem;
@@ -1056,6 +1095,8 @@ function renderLevelExperiencePage(level, list) {
 
   const available = list.filter((item) => item.status === "available");
   const comingSoon = list.filter((item) => item.status !== "available");
+  const countChip = document.querySelector("[data-experience-count]");
+  if (countChip) countChip.textContent = getText(experienceHeroText(level, list.length));
   const divider = comingSoon.length
     ? `<div class="coming-soon-divider"><span>${escapeHtml(getText({
         fr: "✨ D'autres expériences arrivent bientôt...",
@@ -1096,9 +1137,12 @@ function renderExperienceCard(item, level, available) {
       </article>
     `;
   }
+  const visual = item.visual || item.icon || "🔬";
   return `
     <article class="experiment-card level-experience-card available-card" style="--level-accent:${meta.accent}">
-      <div class="experience-art"><span aria-hidden="true">${escapeHtml(item.icon || "🔬")}</span></div>
+      <div class="experience-art science-photo ${meta.className}">
+        <span aria-hidden="true">${escapeHtml(visual)}</span>
+      </div>
       <span class="badge subject-badge">${escapeHtml(getText(item.subject || { fr: "Sciences", ar: "علوم", en: "Science" }))}</span>
       <h2>${localizedTextMarkup(title, "trilingual-card-title")}</h2>
       <p>${escapeHtml(getText(description))}</p>
