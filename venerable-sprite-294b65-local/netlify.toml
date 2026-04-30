@@ -14,6 +14,43 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+[[headers]]
+  for = "/assets/unity-webgl/Build/*.wasm.gz"
+  [headers.values]
+    Content-Type = "application/wasm"
+    Content-Encoding = "gzip"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/assets/unity-webgl/Build/*.data.gz"
+  [headers.values]
+    Content-Type = "application/octet-stream"
+    Content-Encoding = "gzip"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/assets/unity-webgl/Build/*.framework.js.gz"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Content-Encoding = "gzip"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/assets/unity-webgl/Build/*.loader.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/assets/unity-webgl/StreamingAssets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/assets/unity-webgl/TemplateData/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
 [functions]
   node_bundler = "esbuild"
 

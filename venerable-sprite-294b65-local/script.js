@@ -48,6 +48,107 @@ const EXPERIMENT_AUDIENCE = {
   chimie: { levels: ["lycee"], subjects: ["physics-chemistry", "organic-chemistry"] }
 };
 
+Object.assign(SUBJECTS, {
+  primaire: [{ id: "science-education", fr: "Éducation scientifique", ar: "التربية العلمية", en: "Science education" }],
+  primary: [{ id: "science-education", fr: "Éducation scientifique", ar: "التربية العلمية", en: "Science education" }],
+  cem: [
+    { id: "natural-sciences", fr: "Sciences naturelles", ar: "علوم الطبيعة", en: "Natural sciences" },
+    { id: "physics", fr: "Physique", ar: "الفيزياء", en: "Physics" }
+  ],
+  lycee: [
+    { id: "svt", fr: "Sciences de la vie et de la Terre", ar: "علوم الطبيعة والحياة", en: "Life and Earth sciences" },
+    { id: "physics-chemistry", fr: "Physique-Chimie", ar: "فيزياء وكيمياء", en: "Physics and chemistry" },
+    { id: "organic-chemistry", fr: "Chimie organique", ar: "الكيمياء العضوية", en: "Organic chemistry" }
+  ]
+});
+
+Object.assign(LEVEL_LABELS, {
+  primaire: { fr: "Primaire", ar: "ابتدائي", en: "Primary school" },
+  primary: { fr: "Primaire", ar: "ابتدائي", en: "Primary school" },
+  cem: { fr: "CEM", ar: "التعليم المتوسط", en: "Middle school" },
+  lycee: { fr: "Lycée", ar: "ثانوي", en: "High school" }
+});
+
+Object.assign(SUBJECT_HINTS, {
+  "science-education": { fr: "Expériences simples pour observer et comprendre.", ar: "تجارب بسيطة للملاحظة والفهم.", en: "Simple experiments to observe and understand." },
+  "natural-sciences": { fr: "Plantes, eau et observation du vivant.", ar: "النبات والماء وملاحظة الكائنات الحية.", en: "Plants, water, and observing living things." },
+  physics: { fr: "Circuits, masses et mesures faciles.", ar: "دوائر وكتل وقياسات سهلة.", en: "Circuits, masses, and simple measurements." },
+  svt: { fr: "Sciences de la vie avec observation.", ar: "علوم الحياة مع الملاحظة.", en: "Life sciences with observation." },
+  "physics-chemistry": { fr: "Physique et chimie avec un labo 3D.", ar: "فيزياء وكيمياء مع مختبر ثلاثي.", en: "Physics and chemistry with a 3D lab." },
+  "organic-chemistry": { fr: "Chimie plus avancée, étapes de sécurité.", ar: "كيمياء أكثر تقدما مع خطوات السلامة.", en: "More advanced chemistry with safety steps." }
+});
+
+Object.assign(EXPERIMENT_AUDIENCE, {
+  plante: { levels: ["primaire", "primary", "cem", "lycee"], subjects: ["science-education", "natural-sciences", "svt"] },
+  masse: { levels: ["primaire", "primary", "cem"], subjects: ["science-education", "physics"] }
+});
+
+const LEVEL_META = {
+  primaire: { accent: "#4CAF50", icons: "📚✏️🎨", className: "level-primary" },
+  cem: { accent: "#2196F3", icons: "🧪⚗️🔭", className: "level-cem" },
+  lycee: { accent: "#9C27B0", icons: "🎓🔬💡", className: "level-lycee" }
+};
+
+const LEVEL_EXPERIENCES = {
+  primaire: [
+    {
+      id: "prim-01",
+      status: "available",
+      icon: "🌱",
+      lab: "plante",
+      subject: { fr: "Sciences de la nature", ar: "علوم الطبيعة", en: "Natural sciences" },
+      title: { fr: "Absorption de l'eau par la plante", ar: "امتصاص الماء بواسطة النبات", en: "Water absorption by plants" },
+      description: {
+        fr: "Observe comment les racines absorbent l'eau et la font monter jusqu'aux feuilles.",
+        ar: "لاحظ كيف تمتص الجذور الماء وترفعه حتى الأوراق.",
+        en: "Observe how roots absorb water and carry it up to the leaves."
+      }
+    },
+    { id: "prim-02", status: "coming_soon", icon: "🌾", title: { fr: "La germination d'une graine", ar: "إنبات البذرة", en: "Seed germination" } },
+    { id: "prim-03", status: "coming_soon", icon: "💧", title: { fr: "Les états de l'eau", ar: "حالات الماء", en: "States of water" } },
+    { id: "prim-04", status: "coming_soon", icon: "🌊", title: { fr: "Le cycle de l'eau", ar: "دورة الماء", en: "The water cycle" } },
+    { id: "prim-05", status: "coming_soon", icon: "🦁", title: { fr: "Les animaux et leur milieu", ar: "الحيوانات وبيئتها", en: "Animals and their habitat" } }
+  ],
+  cem: [
+    {
+      id: "cem-01",
+      status: "available",
+      icon: "⚡",
+      lab: "circuit",
+      subject: { fr: "Physique", ar: "الفيزياء", en: "Physics" },
+      title: { fr: "Circuit électrique simple", ar: "الدائرة الكهربائية البسيطة", en: "Simple electrical circuit" },
+      description: {
+        fr: "Monte un circuit avec une pile, une ampoule et des fils, et comprends le trajet du courant.",
+        ar: "اصنع دائرة كهربائية ببطارية ومصباح وأسلاك وافهم مسار التيار.",
+        en: "Build a circuit with a battery, a light bulb and wires, and understand how current flows."
+      }
+    },
+    { id: "cem-02", status: "coming_soon", icon: "🍎", title: { fr: "La digestion des aliments", ar: "هضم الأغذية", en: "Food digestion" } },
+    { id: "cem-03", status: "coming_soon", icon: "🫁", title: { fr: "La respiration chez les êtres vivants", ar: "التنفس عند الكائنات الحية", en: "Breathing in living beings" } },
+    { id: "cem-04", status: "coming_soon", icon: "⚗️", title: { fr: "Les réactions chimiques simples", ar: "التفاعلات الكيميائية البسيطة", en: "Simple chemical reactions" } },
+    { id: "cem-05", status: "coming_soon", icon: "🪐", title: { fr: "Le système solaire", ar: "المجموعة الشمسية", en: "The solar system" } }
+  ],
+  lycee: [
+    {
+      id: "lyc-01",
+      status: "available",
+      icon: "🔬",
+      lab: "chimie",
+      subject: { fr: "Chimie", ar: "الكيمياء", en: "Chemistry" },
+      title: { fr: "Électrolyse de l'eau", ar: "تحليل الماء كهربائياً", en: "Electrolysis of water" },
+      description: {
+        fr: "Décompose l'eau en dioxygène et dihydrogène grâce au courant électrique.",
+        ar: "حلّل الماء إلى أكسجين وهيدروجين باستخدام التيار الكهربائي.",
+        en: "Decompose water into oxygen and hydrogen using electrical current."
+      }
+    },
+    { id: "lyc-02", status: "coming_soon", icon: "🌿", title: { fr: "La photosynthèse", ar: "التمثيل الضوئي", en: "Photosynthesis" } },
+    { id: "lyc-03", status: "coming_soon", icon: "🍎", title: { fr: "Les lois de Newton", ar: "قوانين نيوتن", en: "Newton's laws" } },
+    { id: "lyc-04", status: "coming_soon", icon: "🧬", title: { fr: "La génétique - ADN et hérédité", ar: "علم الوراثة - الحمض النووي", en: "Genetics - DNA and heredity" } },
+    { id: "lyc-05", status: "coming_soon", icon: "🌈", title: { fr: "Les ondes et la lumière", ar: "الموجات والضوء", en: "Waves and light" } }
+  ]
+};
+
 const EXPERIMENTS = {
   circuit: {
     id: "circuit",
@@ -219,19 +320,34 @@ function writeJson(key, value) {
 }
 
 function currentLanguage() {
-  return localStorage.getItem(STORAGE.language) || "fr";
+  const lang = localStorage.getItem(STORAGE.language) || "fr";
+  return ["fr", "ar", "en"].includes(lang) ? lang : "fr";
 }
 
 function getText(pair) {
-  return pair[currentLanguage()] || pair.fr;
+  if (!pair || typeof pair !== "object") return "";
+  return pair[currentLanguage()] || pair.fr || pair.en || pair.ar || "";
 }
 
 function escapeHtml(value) {
   return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
-function dualText(fr, ar) {
-  return `<span class="lang-fr">${escapeHtml(fr)}</span><span class="lang-ar">${escapeHtml(ar)}</span>`;
+function dualText(fr, ar, en = fr) {
+  return `<span class="lang-fr">${escapeHtml(fr)}</span><span class="lang-ar">${escapeHtml(ar)}</span><span class="lang-en">${escapeHtml(en)}</span>`;
+}
+
+function localizedTextMarkup(value, extraClass = "") {
+  const cls = extraClass ? ` class="${extraClass}"` : "";
+  return `<span${cls} dir="ltr" lang="fr">${escapeHtml(value.fr || "")}</span><span${cls} dir="rtl" lang="ar">${escapeHtml(value.ar || "")}</span><span${cls} dir="ltr" lang="en">${escapeHtml(value.en || value.fr || "")}</span>`;
+}
+
+function normalizeLevelKey(level) {
+  const key = String(level || "").trim().toLowerCase();
+  if (key === "primary" || key === "primaire" || key === "ابتدائي") return "primaire";
+  if (key === "lycée" || key === "lycee" || key === "ثانوي") return "lycee";
+  if (key === "cem" || key === "middle") return "cem";
+  return LEVEL_EXPERIENCES[key] ? key : "cem";
 }
 
 function formatTime(totalSeconds) {
@@ -267,14 +383,28 @@ function updateStudentBadge() {
 }
 
 function applyLanguage(lang) {
+  lang = ["fr", "ar", "en"].includes(lang) ? lang : "fr";
   document.body.dataset.lang = lang;
   document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   localStorage.setItem(STORAGE.language, lang);
   document.querySelectorAll(".lang-btn").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === lang);
   });
   document.querySelectorAll("[data-placeholder-fr]").forEach((input) => {
-    input.placeholder = lang === "ar" ? input.dataset.placeholderAr : input.dataset.placeholderFr;
+    input.placeholder = input.dataset[`placeholder${lang.charAt(0).toUpperCase()}${lang.slice(1)}`] || input.dataset.placeholderFr;
+  });
+  document.querySelectorAll(".lang-ar").forEach((node) => {
+    node.setAttribute("dir", "rtl");
+    node.setAttribute("lang", "ar");
+  });
+  document.querySelectorAll(".lang-fr").forEach((node) => {
+    node.setAttribute("dir", "ltr");
+    node.setAttribute("lang", "fr");
+  });
+  document.querySelectorAll(".lang-en").forEach((node) => {
+    node.setAttribute("dir", "ltr");
+    node.setAttribute("lang", "en");
   });
   const frame = document.querySelector("[data-lab-frame]");
   if (frame && document.body.dataset.labMode) {
@@ -287,9 +417,20 @@ function applyLanguage(lang) {
     }
   }
   updateStudentBadge();
+  if (document.body.dataset.page === "experiences") initLevelExperiences();
 }
 
 function bindGlobalUi() {
+  document.querySelectorAll(".lang-switch").forEach((switcher) => {
+    if (!switcher.querySelector('[data-lang="en"]')) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "lang-btn";
+      button.dataset.lang = "en";
+      button.textContent = "EN";
+      switcher.appendChild(button);
+    }
+  });
   document.querySelectorAll(".lang-btn").forEach((button) => {
     button.addEventListener("click", () => applyLanguage(button.dataset.lang));
   });
@@ -699,13 +840,16 @@ function initStudentForm() {
   if (!form) return;
   const levelInput = form.querySelector('input[name="level"]');
   const levelButtons = form.querySelectorAll("[data-level-choice]");
-  const savedLevel = localStorage.getItem(STORAGE.currentLevel) || "cem";
+  const savedLevel = normalizeLevelKey(localStorage.getItem(STORAGE.currentLevel) || "cem");
+  const continueButton = form.querySelector("[data-continue-button]");
 
   function selectLevel(level) {
+    level = normalizeLevelKey(level);
     if (levelInput) levelInput.value = level;
     levelButtons.forEach((button) => {
-      button.classList.toggle("active", button.dataset.levelChoice === level);
+      button.classList.toggle("active", normalizeLevelKey(button.dataset.levelChoice) === level);
     });
+    if (continueButton) continueButton.dataset.level = level;
   }
 
   levelButtons.forEach((button) => {
@@ -721,7 +865,7 @@ function initStudentForm() {
     const enteredCode = normalizeLabCode(data.get("classCode"));
     const assignment = findLabCodeAssignment(enteredCode);
     const classCode = enteredCode || "CEM2026";
-    const level = String(data.get("level") || "").trim() || "cem";
+    const level = normalizeLevelKey(data.get("level") || "cem");
     if (!firstName) {
       alert(getText({ fr: "Ecris ton prenom pour continuer.", ar: "اكتب اسمك للمتابعة." }));
       return;
@@ -745,6 +889,7 @@ function initStudentForm() {
 }
 
 function renderSubjects(level) {
+  level = normalizeLevelKey(level);
   const subjectGrid = document.getElementById("subject-grid");
   if (!subjectGrid) return;
   const assignment = getActiveLabAssignment();
@@ -798,14 +943,15 @@ function initDashboard() {
       ? dualText(`Bienvenue ${studentName}. Choisissez votre niveau puis votre matiere.`, `مرحبا ${studentName}. اختر مستواك ثم المادة.`)
       : dualText("Choisissez votre niveau puis votre matiere.", "اختر مستواك ثم المادة.");
   }
-  const savedLevel = localStorage.getItem(STORAGE.currentLevel) || "cem";
+  const savedLevel = normalizeLevelKey(localStorage.getItem(STORAGE.currentLevel) || "cem");
   document.querySelectorAll(".level-card").forEach((button) => {
-    if (button.dataset.level === savedLevel) button.classList.add("active");
+    if (normalizeLevelKey(button.dataset.level) === savedLevel) button.classList.add("active");
     button.addEventListener("click", () => {
       document.querySelectorAll(".level-card").forEach((card) => card.classList.remove("active"));
       button.classList.add("active");
-      localStorage.setItem(STORAGE.currentLevel, button.dataset.level);
-      renderSubjects(button.dataset.level);
+      const nextLevel = normalizeLevelKey(button.dataset.level);
+      localStorage.setItem(STORAGE.currentLevel, nextLevel);
+      renderSubjects(nextLevel);
     });
   });
   if (savedLevel) renderSubjects(savedLevel);
@@ -850,6 +996,119 @@ function initExperiences() {
       `هذه ${visibleIds.length} تجربة مناسبة لـ ${LEVEL_LABELS[level].ar} - ${subject.ar}.`
     );
   }
+}
+
+function initLevelExperiences() {
+  const summary = document.querySelector("[data-experiences-summary]");
+  if (!summary) return;
+  const params = new URLSearchParams(window.location.search);
+  const assignment = findLabCodeAssignment(params.get("code")) || getActiveLabAssignment();
+  const level = normalizeLevelKey(assignment ? assignment.level : (params.get("level") || localStorage.getItem(STORAGE.currentLevel) || "cem"));
+  let subject = parseSavedSubject();
+  const subjectId = assignment ? (subjectForExperiment(assignment.experimentId, level)?.id || "") : params.get("subject");
+  if (subjectId) subject = (SUBJECTS[level] || []).find((item) => item.id === subjectId) || subject;
+  if (!subject) subject = (SUBJECTS[level] || [])[0] || { fr: "Physique", ar: "الفيزياء", en: "Physics" };
+  localStorage.setItem(STORAGE.currentLevel, level);
+  localStorage.setItem(STORAGE.currentSubject, JSON.stringify(subject));
+  if (assignment) localStorage.setItem(STORAGE.activeLabCode, assignment.code);
+
+  const list = assignment
+    ? (LEVEL_EXPERIENCES[level] || []).filter((item) => item.lab === assignment.experimentId)
+    : (LEVEL_EXPERIENCES[level] || []);
+  renderLevelExperiencePage(level, list);
+
+  if (assignment) {
+    const experiment = getExperimentConfig(assignment.experimentId);
+    summary.innerHTML = dualText(
+      `Code ${assignment.code} : une seule activité assignée par le professeur, ${experiment.title.fr}.`,
+      `الرمز ${assignment.code}: نشاط واحد فقط حدده الأستاذ، ${experiment.title.ar}.`,
+      `Code ${assignment.code}: one activity assigned by the teacher, ${experiment.title.en || experiment.title.fr}.`
+    );
+  } else {
+    summary.innerHTML = dualText(
+      `Voici ${list.length} expérience(s) pour ${LEVEL_LABELS[level].fr}.`,
+      `هذه ${list.length} تجربة مناسبة لـ ${LEVEL_LABELS[level].ar}.`,
+      `Here are ${list.length} experiment(s) for ${LEVEL_LABELS[level].en}.`
+    );
+  }
+}
+
+function renderLevelExperiencePage(level, list) {
+  const lang = currentLanguage();
+  const meta = LEVEL_META[level] || LEVEL_META.cem;
+  const label = LEVEL_LABELS[level] || LEVEL_LABELS.cem;
+  const grid = document.getElementById("experiment-grid");
+  const banner = document.querySelector("[data-level-banner]");
+  const title = document.querySelector("[data-level-title]");
+  const icon = document.querySelector("[data-level-icon]");
+  const backIcon = document.querySelector("[data-back-icon]");
+
+  document.body.dataset.level = level;
+  if (banner) {
+    banner.style.setProperty("--level-accent", meta.accent);
+    banner.classList.remove("level-primary", "level-cem", "level-lycee");
+    banner.classList.add(meta.className);
+  }
+  if (title) title.innerHTML = localizedTextMarkup(label, "level-title-line");
+  if (icon) icon.textContent = meta.icons;
+  if (backIcon) backIcon.textContent = lang === "ar" ? "→" : "←";
+  if (!grid) return;
+
+  const available = list.filter((item) => item.status === "available");
+  const comingSoon = list.filter((item) => item.status !== "available");
+  const divider = comingSoon.length
+    ? `<div class="coming-soon-divider"><span>${escapeHtml(getText({
+        fr: "✨ D'autres expériences arrivent bientôt...",
+        ar: "✨ تجارب أخرى قادمة قريباً...",
+        en: "✨ More experiments coming soon..."
+      }))}</span></div>`
+    : "";
+
+  grid.innerHTML = [
+    ...available.map((item) => renderExperienceCard(item, level, true)),
+    divider,
+    ...comingSoon.map((item) => renderExperienceCard(item, level, false))
+  ].join("");
+
+  grid.querySelectorAll("[data-start-lab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const lab = button.dataset.startLab;
+      localStorage.setItem(STORAGE.lastExperiment, lab);
+      window.location.href = `${lab}.html`;
+    });
+  });
+}
+
+function renderExperienceCard(item, level, available) {
+  const meta = LEVEL_META[level] || LEVEL_META.cem;
+  const title = item.title || { fr: "", ar: "", en: "" };
+  const description = item.description || {
+    fr: "Bientôt disponible",
+    ar: "قريباً",
+    en: "Coming soon"
+  };
+  if (!available) {
+    return `
+      <article class="experiment-card level-experience-card coming-soon-card" aria-disabled="true">
+        <div class="experience-art locked-art"><span aria-hidden="true">🔒</span></div>
+        <h2>${escapeHtml(getText(title))}</h2>
+        <span class="badge badge-muted">${escapeHtml(getText({ fr: "Bientôt disponible", ar: "قريباً", en: "Coming soon" }))}</span>
+      </article>
+    `;
+  }
+  return `
+    <article class="experiment-card level-experience-card available-card" style="--level-accent:${meta.accent}">
+      <div class="experience-art"><span aria-hidden="true">${escapeHtml(item.icon || "🔬")}</span></div>
+      <span class="badge subject-badge">${escapeHtml(getText(item.subject || { fr: "Sciences", ar: "علوم", en: "Science" }))}</span>
+      <h2>${localizedTextMarkup(title, "trilingual-card-title")}</h2>
+      <p>${escapeHtml(getText(description))}</p>
+      <div class="stars" aria-hidden="true">⭐⭐⭐</div>
+      <button type="button" class="primary-btn" data-start-lab="${escapeHtml(item.lab || "circuit")}">
+        <span aria-hidden="true">🚀</span>
+        ${escapeHtml(getText({ fr: "Commencer", ar: "ابدأ", en: "Start" }))}
+      </button>
+    </article>
+  `;
 }
 
 function initEmbeddedLabExperiment() {
@@ -1723,7 +1982,7 @@ function initPage() {
   if (pageId === "index") initIndex();
   if (pageId === "student") initStudentForm();
   if (pageId === "dashboard") initDashboard();
-  if (pageId === "experiences") initExperiences();
+  if (pageId === "experiences") initLevelExperiences();
   if (pageId === "experiment") initExperimentPage();
   if (pageId === "result") initResultPage();
   if (pageId === "quiz") initQuizPage();

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@400;700&family=Nunito:wght@400;700;800&display=swap');
+
 :root {
   --primary: #1f6feb;
   --blue: #1f6feb;
@@ -23,7 +25,9 @@ html {
 
 body {
   margin: 0;
-  font-family: "Trebuchet MS", "Aptos", "Segoe UI", sans-serif;
+  font-family: "Nunito", "Cairo", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--text);
   background:
     radial-gradient(circle at top left, rgba(47, 158, 68, 0.12), transparent 26rem),
@@ -33,11 +37,35 @@ body {
 
 body[data-lang="ar"] {
   direction: rtl;
+  font-family: "Cairo", "Nunito", sans-serif;
 }
 
 body[data-lang="fr"] .lang-ar,
-body[data-lang="ar"] .lang-fr {
+body[data-lang="fr"] .lang-en,
+body[data-lang="ar"] .lang-fr,
+body[data-lang="ar"] .lang-en,
+body[data-lang="en"] .lang-ar {
   display: none !important;
+}
+
+body[data-lang="en"] .lang-fr:has(~ .lang-en),
+body[data-lang="en"] .lang-fr:has(+ .lang-en) {
+  display: none !important;
+}
+
+h1,
+h2,
+h3,
+.brand strong,
+.loading-logo {
+  font-family: "Fredoka One", "Cairo", cursive;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+[lang="ar"],
+.lang-ar {
+  font-family: "Cairo", sans-serif;
 }
 
 a {
@@ -143,6 +171,20 @@ button {
 .lang-btn.active {
   background: var(--white);
   box-shadow: 0 4px 14px rgba(21, 101, 192, 0.14);
+}
+
+.lang-btn:hover,
+.lang-btn:focus-visible,
+.primary-btn:focus-visible,
+.secondary-btn:focus-visible,
+.ghost-btn:focus-visible,
+.selection-card:focus-visible,
+.back-link:focus-visible,
+input:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(33, 150, 243, 0.35);
+  outline-offset: 3px;
 }
 
 .menu-toggle {
@@ -1444,6 +1486,410 @@ body[data-page="experiment"] .fade-up {
   }
 }
 
+.home-hero,
+.student-page,
+.experiences-page {
+  background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 50%, #f3e5f5 100%);
+  border-radius: 28px;
+}
+
+.home-hero {
+  padding: clamp(22px, 4vw, 42px);
+  overflow: hidden;
+}
+
+.algeria-stripe {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 5px;
+  width: min(520px, 100%);
+  margin: 20px 0 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(16, 59, 115, 0.12);
+}
+
+.algeria-stripe span:nth-child(1) { background: #006233; }
+.algeria-stripe span:nth-child(2) { background: #ffffff; }
+.algeria-stripe span:nth-child(3) { background: #d21034; }
+
+.hero-visual {
+  min-height: 360px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(70px, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: 18px;
+  padding: 28px;
+}
+
+.hero-visual span {
+  font-size: clamp(3rem, 7vw, 5rem);
+  animation: science-float 4s ease-in-out infinite;
+  filter: drop-shadow(0 14px 18px rgba(16, 59, 115, 0.16));
+}
+
+.hero-visual span:nth-child(2n) {
+  animation-delay: 0.8s;
+}
+
+.hero-visual span:nth-child(3n) {
+  animation-delay: 1.4s;
+}
+
+.step-icon,
+.feature-icon,
+.level-icon-cluster {
+  display: block;
+  font-size: 2.5rem;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.hero-step {
+  text-align: center;
+}
+
+.hero-step strong {
+  margin: 0 auto;
+}
+
+.home-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.home-stats .hero-stat {
+  margin: 0;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.level-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.level-showcase-card {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(16, 59, 115, 0.08);
+  border-left: 4px solid var(--level-accent, var(--primary));
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(16, 59, 115, 0.09);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+body[data-lang="ar"] .level-showcase-card {
+  border-left: 1px solid rgba(16, 59, 115, 0.08);
+  border-right: 4px solid var(--level-accent, var(--primary));
+}
+
+.level-showcase-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 18px 40px rgba(16, 59, 115, 0.16);
+}
+
+.level-primary { --level-accent: #4caf50; }
+.level-cem { --level-accent: #2196f3; }
+.level-lycee { --level-accent: #9c27b0; }
+
+.level-primary .level-showcase-art,
+.level-primary.selection-card {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
+
+.level-cem .level-showcase-art,
+.level-cem.selection-card {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+}
+
+.level-lycee .level-showcase-art,
+.level-lycee.selection-card {
+  background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+}
+
+.level-showcase-art {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  font-size: 4rem;
+  background: color-mix(in srgb, var(--level-accent) 20%, white);
+}
+
+.level-showcase-copy {
+  padding: 18px;
+}
+
+.level-showcase-copy h2,
+.level-choice strong {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 8px;
+}
+
+.level-showcase-copy em,
+.level-choice em,
+.trilingual-card-title[lang="en"] {
+  font-style: italic;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+}
+
+.visual-info-card {
+  text-align: center;
+}
+
+.feature-icon {
+  font-size: 3rem;
+}
+
+.site-footer {
+  background: #1a1a2e;
+  color: #fff;
+  text-align: center;
+  padding: 34px 18px;
+}
+
+.site-footer strong {
+  display: block;
+  font-family: "Fredoka One", "Cairo", cursive;
+  font-size: 2rem;
+}
+
+.footer-science {
+  margin: 12px 0;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  letter-spacing: 0;
+}
+
+.student-page,
+.experiences-page {
+  margin-top: 24px;
+  padding-top: 32px;
+}
+
+.student-mascot {
+  font-size: 5rem;
+  text-align: center;
+  animation: friendly-pulse 2s ease-in-out infinite;
+}
+
+.student-form-card {
+  border: 1px solid rgba(33, 150, 243, 0.12);
+}
+
+.icon-field {
+  position: relative;
+}
+
+.icon-field .input-icon {
+  position: absolute;
+  bottom: 15px;
+  left: 16px;
+  z-index: 1;
+  font-size: 1.25rem;
+}
+
+body[data-lang="ar"] .icon-field .input-icon {
+  left: auto;
+  right: 16px;
+}
+
+.icon-field input {
+  padding-left: 52px;
+}
+
+body[data-lang="ar"] .icon-field input {
+  padding-left: 18px;
+  padding-right: 52px;
+}
+
+.visual-level-grid .level-choice {
+  min-height: 140px;
+  border-left: 5px solid var(--level-accent);
+  border-radius: 8px;
+}
+
+body[data-lang="ar"] .visual-level-grid .level-choice {
+  border-left-width: 2px;
+  border-right: 5px solid var(--level-accent);
+}
+
+.visual-level-grid .level-choice.active {
+  border-color: var(--level-accent);
+  box-shadow: 0 0 0 3px var(--level-accent), 0 16px 32px rgba(16, 59, 115, 0.14);
+  transform: scale(1.02);
+}
+
+.student-continue-btn {
+  width: 100%;
+  border-radius: 16px;
+  gap: 10px;
+}
+
+.student-continue-btn[data-level="primaire"] {
+  background: linear-gradient(90deg, #4caf50, #2196f3);
+}
+
+.student-continue-btn[data-level="cem"] {
+  background: linear-gradient(90deg, #2196f3, #1565c0);
+}
+
+.student-continue-btn[data-level="lycee"] {
+  background: linear-gradient(90deg, #9c27b0, #6a1b9a);
+}
+
+.level-experience-banner {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 20px;
+  color: #fff;
+  background: var(--level-accent, #2196f3);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 18px 40px rgba(16, 59, 115, 0.18);
+}
+
+.level-experience-banner .eyebrow {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.level-experience-banner h1,
+.level-experience-banner p,
+.level-experience-banner .back-link {
+  color: #fff;
+}
+
+.level-back-link {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.level-banner-icon {
+  font-size: clamp(3rem, 7vw, 5rem);
+}
+
+.level-title-line {
+  display: block;
+}
+
+.dynamic-experiences-grid {
+  margin-top: 24px;
+  align-items: stretch;
+}
+
+.level-experience-card {
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.level-experience-card > :not(.experience-art) {
+  margin-left: 22px;
+  margin-right: 22px;
+}
+
+.experience-art {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--level-accent) 18%, white);
+}
+
+.experience-art span {
+  font-size: 5rem;
+  animation: science-float 3s ease-in-out infinite;
+}
+
+.subject-badge {
+  width: fit-content;
+  margin-top: 22px;
+  background: var(--level-accent);
+  color: #fff;
+}
+
+.level-experience-card h2 {
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.level-experience-card p {
+  margin-bottom: 12px;
+}
+
+.stars {
+  margin-bottom: 18px;
+  color: #f5a400;
+}
+
+.level-experience-card .primary-btn {
+  margin-bottom: 22px;
+  background: var(--level-accent);
+  gap: 8px;
+}
+
+.coming-soon-card {
+  filter: grayscale(80%);
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.coming-soon-card .locked-art {
+  background: #eceff1;
+}
+
+.coming-soon-card .locked-art span {
+  font-size: 3rem;
+  animation: none;
+}
+
+.coming-soon-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--navy);
+  font-weight: 800;
+}
+
+.coming-soon-divider::before,
+.coming-soon-divider::after {
+  content: "";
+  flex: 1;
+  border-top: 2px dashed rgba(16, 59, 115, 0.25);
+}
+
+@keyframes science-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes friendly-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 @media (max-width: 1080px) {
   .hero-grid,
   .split-layout,
@@ -1453,8 +1899,14 @@ body[data-page="experiment"] .fade-up {
     grid-template-columns: 1fr;
   }
 
-  .feature-grid {
+  .feature-grid,
+  .level-showcase,
+  .home-stats {
     grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    min-height: 220px;
   }
 }
 
@@ -1507,6 +1959,15 @@ body[data-page="experiment"] .fade-up {
     grid-template-columns: 1fr;
   }
 
+  .level-experience-banner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .level-back-link {
+    justify-self: start;
+  }
+
   .panel-head-wide {
     flex-direction: column;
   }
@@ -1524,6 +1985,27 @@ body[data-page="experiment"] .fade-up {
 @media (max-width: 640px) {
   .page-shell {
     padding-inline: 16px;
+  }
+
+  .home-hero,
+  .student-page,
+  .experiences-page {
+    border-radius: 18px;
+  }
+
+  .hero-visual {
+    grid-template-columns: repeat(2, minmax(80px, 1fr));
+    padding: 10px;
+  }
+
+  .coming-soon-divider {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .coming-soon-divider::before,
+  .coming-soon-divider::after {
+    width: 100%;
   }
 
   .hero-actions,

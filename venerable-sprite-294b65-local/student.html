@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VirtuLab - Eleve</title>
+  <title>VirtuLab - Élève</title>
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -17,92 +17,105 @@
           <small>
             <span class="lang-fr">Labo virtuel simple pour apprendre</span>
             <span class="lang-ar">مختبر افتراضي بسيط للتعلم</span>
+            <span class="lang-en">A simple virtual lab to learn</span>
           </small>
         </span>
       </a>
-      <button class="menu-toggle" type="button" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <button class="menu-toggle" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
       <div class="topbar-nav">
         <div class="student-pill">
           <span class="lang-fr">Profil</span>
           <span class="lang-ar">الملف</span>
+          <span class="lang-en">Profile</span>
           <strong data-student-display></strong>
         </div>
-        <div class="lang-switch">
+        <div class="lang-switch" aria-label="Language">
           <button type="button" class="lang-btn" data-lang="fr">FR</button>
           <button type="button" class="lang-btn" data-lang="ar">AR</button>
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
         </div>
         <button type="button" class="secondary-btn logout-btn">
-          <span class="lang-fr">Se deconnecter</span>
+          <span class="lang-fr">Se déconnecter</span>
           <span class="lang-ar">تسجيل الخروج</span>
+          <span class="lang-en">Log out</span>
         </button>
       </div>
     </div>
   </header>
 
-  <main class="page-shell narrow-shell">
+  <main class="page-shell narrow-shell student-page">
     <section class="page-intro fade-up">
       <span class="eyebrow">VirtuLab</span>
+      <div class="student-mascot" aria-hidden="true">🧑‍🔬</div>
       <h1>
-        <span class="lang-fr">Commencer mon activite</span>
+        <span class="lang-fr">Commencer mon activité</span>
         <span class="lang-ar">بدء النشاط</span>
+        <span class="lang-en">Start my activity</span>
       </h1>
       <p>
-        <span class="lang-fr">Remplis seulement l essentiel, puis choisis ton niveau pour voir les experiences qui te correspondent.</span>
+        <span class="lang-fr">Remplis seulement l'essentiel, puis choisis ton niveau pour voir les expériences qui te correspondent.</span>
         <span class="lang-ar">املأ المعلومات المهمة فقط، ثم اختر مستواك لرؤية التجارب المناسبة لك.</span>
+        <span class="lang-en">Fill in just the essentials, then choose your level to see the right experiments for you.</span>
       </p>
     </section>
 
     <section class="panel-card simple-flow-card fade-up delay-1">
       <div class="simple-flow-grid">
-        <div><strong>1</strong><span class="lang-fr">Ecris ton prenom</span><span class="lang-ar">اكتب اسمك</span></div>
-        <div><strong>2</strong><span class="lang-fr">Choisis ton niveau</span><span class="lang-ar">اختر مستواك</span></div>
-        <div><strong>3</strong><span class="lang-fr">Continue vers les matieres</span><span class="lang-ar">انتقل إلى المواد</span></div>
+        <div><span class="step-icon" aria-hidden="true">👤</span><strong>1</strong><span class="lang-fr">Écris ton prénom</span><span class="lang-ar">اكتب اسمك</span><span class="lang-en">Write your first name</span></div>
+        <div><span class="step-icon" aria-hidden="true">🎒</span><strong>2</strong><span class="lang-fr">Choisis ton niveau</span><span class="lang-ar">اختر مستواك</span><span class="lang-en">Choose your level</span></div>
+        <div><span class="step-icon" aria-hidden="true">🚀</span><strong>3</strong><span class="lang-fr">Continue vers les matières</span><span class="lang-ar">انتقل إلى المواد</span><span class="lang-en">Continue to subjects</span></div>
       </div>
     </section>
 
-    <section class="form-card fade-up delay-2">
+    <section class="form-card student-form-card fade-up delay-2">
       <form id="student-form" class="stack-form">
         <div class="student-form-grid">
-          <label>
-            <span class="lang-fr">Prenom</span>
+          <label class="icon-field">
+            <span class="lang-fr">Prénom</span>
             <span class="lang-ar">الاسم</span>
-            <input type="text" name="firstName" required data-placeholder-fr="Exemple : Ahmed" data-placeholder-ar="مثال: أحمد">
+            <span class="lang-en">First name</span>
+            <span class="input-icon" aria-hidden="true">👤</span>
+            <input type="text" name="firstName" required data-placeholder-fr="Exemple : Ahmed" data-placeholder-ar="مثال: أحمد" data-placeholder-en="Example: Ahmed">
           </label>
-          <label>
+          <label class="icon-field">
             <span class="lang-fr">Nom (optionnel)</span>
             <span class="lang-ar">اللقب (اختياري)</span>
-            <input type="text" name="lastName" data-placeholder-fr="Exemple : Benali" data-placeholder-ar="مثال: بن علي">
+            <span class="lang-en">Last name (optional)</span>
+            <span class="input-icon" aria-hidden="true">📝</span>
+            <input type="text" name="lastName" data-placeholder-fr="Exemple : Benali" data-placeholder-ar="مثال: بن علي" data-placeholder-en="Example: Benali">
           </label>
         </div>
 
-        <label>
+        <label class="icon-field">
           <span class="lang-fr">Code du professeur (optionnel)</span>
           <span class="lang-ar">رمز الأستاذ (اختياري)</span>
-          <input type="text" name="classCode" data-placeholder-fr="Exemple : CE-PLA-A1B2" data-placeholder-ar="مثال: CE-PLA-A1B2">
+          <span class="lang-en">Teacher code (optional)</span>
+          <span class="input-icon" aria-hidden="true">🔑</span>
+          <input type="text" name="classCode" data-placeholder-fr="Exemple : CE-PLA-A1B2" data-placeholder-ar="مثال: CE-PLA-A1B2" data-placeholder-en="Example: CE-PLA-A1B2">
         </label>
 
         <div class="field-block">
           <span class="field-title">
             <span class="lang-fr">Choisis ton niveau scolaire</span>
             <span class="lang-ar">اختر مستواك الدراسي</span>
+            <span class="lang-en">Choose your school level</span>
           </span>
 
-          <div class="quick-level-grid">
-            <button type="button" class="selection-card level-choice" data-level-choice="primary">
-              <strong><span class="lang-fr">Primaire</span><span class="lang-ar">ابتدائي</span></strong>
-              <span><span class="lang-fr">Experiences tres simples</span><span class="lang-ar">تجارب بسيطة جدا</span></span>
+          <div class="quick-level-grid visual-level-grid">
+            <button type="button" class="selection-card level-choice level-primary" data-level-choice="primaire">
+              <span class="level-icon-cluster" aria-hidden="true">📚 ✏️ 🎨</span>
+              <strong><span>Primaire</span><span dir="rtl" lang="ar">ابتدائي</span><em>Primary school</em></strong>
+              <span><span class="lang-fr">Expériences très simples</span><span class="lang-ar">تجارب بسيطة جدا</span><span class="lang-en">Very simple experiments</span></span>
             </button>
-            <button type="button" class="selection-card level-choice" data-level-choice="cem">
-              <strong>CEM</strong>
-              <span><span class="lang-fr">College / cycle moyen</span><span class="lang-ar">التعليم المتوسط</span></span>
+            <button type="button" class="selection-card level-choice level-cem" data-level-choice="cem">
+              <span class="level-icon-cluster" aria-hidden="true">🧪 ⚗️ 🔭</span>
+              <strong><span>CEM</span><span dir="rtl" lang="ar">التعليم المتوسط</span><em>Middle school</em></strong>
+              <span><span class="lang-fr">Collège / cycle moyen</span><span class="lang-ar">التعليم المتوسط</span><span class="lang-en">Middle school</span></span>
             </button>
-            <button type="button" class="selection-card level-choice" data-level-choice="lycee">
-              <strong><span class="lang-fr">Lycee</span><span class="lang-ar">ثانوي</span></strong>
-              <span><span class="lang-fr">Experiences plus avancees</span><span class="lang-ar">تجارب أكثر تقدما</span></span>
+            <button type="button" class="selection-card level-choice level-lycee" data-level-choice="lycee">
+              <span class="level-icon-cluster" aria-hidden="true">🎓 🔬 💡</span>
+              <strong><span>Lycée</span><span dir="rtl" lang="ar">ثانوي</span><em>High school</em></strong>
+              <span><span class="lang-fr">Expériences plus avancées</span><span class="lang-ar">تجارب أكثر تقدما</span><span class="lang-en">More advanced experiments</span></span>
             </button>
           </div>
 
@@ -111,17 +124,21 @@
           <p class="choice-note">
             <span class="lang-fr">Tu pourras changer ce choix ensuite si besoin.</span>
             <span class="lang-ar">يمكنك تغيير هذا الاختيار بعد ذلك إذا احتجت.</span>
+            <span class="lang-en">You can change this choice later if needed.</span>
           </p>
         </div>
 
-        <button class="primary-btn" type="submit">
+        <button class="primary-btn student-continue-btn" type="submit" data-continue-button>
+          <span aria-hidden="true">🚀</span>
           <span class="lang-fr">Continuer</span>
           <span class="lang-ar">متابعة</span>
+          <span class="lang-en">Continue</span>
         </button>
 
         <p class="form-note">
-          <span class="lang-fr">Les donnees restent sur cet appareil pour la demonstration.</span>
+          <span class="lang-fr">Les données restent sur cet appareil pour la démonstration.</span>
           <span class="lang-ar">تبقى البيانات على هذا الجهاز لأغراض العرض.</span>
+          <span class="lang-en">Data stays on this device for the demonstration.</span>
         </p>
       </form>
     </section>
