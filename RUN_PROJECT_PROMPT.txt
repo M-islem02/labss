@@ -1,0 +1,32 @@
+Copy and paste these commands in PowerShell on the other PC.
+
+Step 1 - Install required programs:
+
+winget install --id Git.Git -e
+winget install --id GitHub.GitLFS -e
+winget install --id Python.Python.3.12 -e
+
+Step 2 - Close PowerShell, open PowerShell again, then run:
+
+cd "$env:USERPROFILE\Desktop"
+
+git clone --recurse-submodules https://github.com/M-islem02/labss.git LAB
+cd LAB
+
+git lfs install
+git submodule update --init --recursive
+
+cd .\Laboratory-Simulator-sparse
+git lfs pull
+cd ..
+
+python .\venerable-sprite-294b65-local\serve-local.py --port 4174 --root .\Laboratory-Simulator-sparse\WebBuild\index.html
+
+Step 3 - Open this link in the browser:
+
+http://localhost:4174
+
+To stop the project, press:
+
+Ctrl + C
+
