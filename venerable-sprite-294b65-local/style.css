@@ -1230,7 +1230,7 @@ body[data-lang="ar"] .visual-subject-card {
 
 .lab-frame {
   width: 100%;
-  height: clamp(360px, calc(100vh - 470px), 560px);
+  height: clamp(520px, calc(100vh - 320px), 720px);
   min-height: 0;
   margin-top: 14px;
   border: 1px solid rgba(21, 101, 192, 0.12);
@@ -1239,7 +1239,7 @@ body[data-lang="ar"] .visual-subject-card {
 }
 
 .lab-frame-large {
-  height: clamp(380px, calc(100vh - 470px), 580px);
+  height: clamp(560px, calc(100vh - 320px), 760px);
   min-height: 0;
 }
 
@@ -1248,7 +1248,7 @@ body[data-lang="ar"] .visual-subject-card {
 }
 
 .lab-preview {
-  min-height: clamp(340px, 44vw, 520px);
+  min-height: clamp(460px, 46vw, 680px);
   margin-top: 14px;
   border: 1px solid rgba(21, 101, 192, 0.14);
   border-radius: 22px;

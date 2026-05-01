@@ -12,7 +12,6 @@ cd "$env:USERPROFILE\Desktop"
 
 git clone --recurse-submodules https://github.com/M-islem02/labss.git LAB
 cd LAB
-
 git lfs install
 git submodule update --init --recursive
 

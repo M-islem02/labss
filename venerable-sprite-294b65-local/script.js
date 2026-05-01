@@ -2184,6 +2184,7 @@ Object.assign(SUBJECTS, {
     { id: "science-education", fr: "Education scientifique", ar: "التربية العلمية", en: "Science education" }
   ],
   cem: [
+    { id: "natural-sciences", fr: "Sciences naturelles", ar: "علوم الطبيعة", en: "Natural sciences" },
     { id: "physics", fr: "Physique", ar: "الفيزياء", en: "Physics" }
   ],
   lycee: [
@@ -2212,6 +2213,11 @@ Object.assign(SUBJECT_HINTS, {
     fr: "Une activite claire pour comprendre les circuits.",
     ar: "نشاط واضح لفهم الدوائر الكهربائية.",
     en: "A clear activity to understand circuits."
+  },
+  "natural-sciences": {
+    fr: "Observation des plantes et de l'eau au niveau CEM.",
+    ar: "ملاحظة النباتات والماء لمستوى CEM.",
+    en: "Observe plants and water at the CEM level."
   },
   "physics-chemistry": {
     fr: "Une experience de physique au niveau lycee.",
@@ -2246,6 +2252,7 @@ Object.keys(SUBJECT_ICONS).forEach((key) => {
 });
 Object.assign(SUBJECT_ICONS, {
   "science-education": "🌱",
+  "natural-sciences": "🌿",
   physics: "⚡",
   "physics-chemistry": "⚖️",
   "organic-chemistry": "⚗️"

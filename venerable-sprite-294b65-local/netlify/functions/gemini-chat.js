@@ -95,7 +95,6 @@ exports.handler = async function handler(event) {
   const history = sanitizeHistory(payload.history);
 
   const contents = [
-    { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
     ...history,
     { role: 'user', parts: [{ text: message.slice(0, 3000) }] }
   ];
@@ -105,6 +104,7 @@ exports.handler = async function handler(event) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
         contents,
         generationConfig: {
           temperature: 0.65,

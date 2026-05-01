@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>EduVirtuel - Tableau de bord enseignant</title>
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260501-fix2">
 </head>
 <body data-page="teacher-dashboard" data-lang="fr" class="teacher-page">
   <header class="topbar"><div class="topbar-inner">
@@ -106,8 +106,7 @@
 
     <!-- Main layout -->
     <section class="teacher-layout fade-up delay-2">
-      <!-- Left: students table -->
-      <article class="panel-card">
+      <article class="panel-card teacher-table-panel">
         <div class="panel-head">
           <h2>&#x1F4CB;
             <span class="lang-fr">Suivi des &eacute;l&egrave;ves</span>
@@ -152,11 +151,9 @@
         </div>
       </article>
 
-      <!-- Right: side stack -->
-      <aside class="side-stack">
+      <div class="teacher-bottom-grid">
 
-        <!-- Student detail -->
-        <article class="panel-card fade-up delay-2">
+        <article class="panel-card fade-up delay-2 teacher-panel-wide">
           <div class="panel-head">
             <h2>&#x1F464;
               <span class="lang-fr">D&eacute;tail &eacute;l&egrave;ve</span>
@@ -172,8 +169,23 @@
           <div id="student-detail" class="detail-card"></div>
         </article>
 
-        <!-- Class code generator -->
-        <article class="panel-card fade-up delay-3">
+        <article class="panel-card fade-up delay-3 teacher-accounts-panel">
+          <div class="panel-head">
+            <h2>&#x1F465;
+              <span class="lang-fr">Comptes &eacute;l&egrave;ves</span>
+              <span class="lang-ar">&#x62D;&#x633;&#x627;&#x628;&#x627;&#x62A; &#x627;&#x644;&#x62A;&#x644;&#x627;&#x645;&#x64A;&#x630;</span>
+              <span class="lang-en">Student accounts</span>
+            </h2>
+            <p>
+              <span class="lang-fr">Les nouveaux comptes cr&eacute;&eacute;s par les &eacute;l&egrave;ves apparaissent ici.</span>
+              <span class="lang-ar">&#x62A;&#x638;&#x647;&#x631; &#x647;&#x646;&#x627; &#x627;&#x644;&#x62D;&#x633;&#x627;&#x628;&#x627;&#x62A; &#x627;&#x644;&#x62C;&#x62F;&#x64A;&#x62F;&#x629; &#x627;&#x644;&#x62A;&#x64A; &#x64A;&#x646;&#x634;&#x626;&#x647;&#x627; &#x627;&#x644;&#x62A;&#x644;&#x645;&#x64A;&#x630;.</span>
+              <span class="lang-en">New student accounts created by learners appear here.</span>
+            </p>
+          </div>
+          <div id="registered-students-list" class="registered-students-list"></div>
+        </article>
+
+        <article class="panel-card fade-up delay-3 teacher-code-panel">
           <div class="panel-head">
             <h2>&#x1F511;
               <span class="lang-fr">Code pour les &eacute;l&egrave;ves</span>
@@ -218,8 +230,7 @@
           <div id="lab-code-list" class="generated-code-list"></div>
         </article>
 
-        <!-- AI Insights -->
-        <article class="panel-card fade-up delay-3">
+        <article class="panel-card fade-up delay-3 teacher-panel-wide">
           <div class="panel-head">
             <h2>&#x1F916;
               <span class="lang-fr">AI Insights</span>
@@ -234,12 +245,11 @@
           </div>
           <div id="teacher-insights" class="insights-list"></div>
         </article>
-
-      </aside>
+      </div>
     </section>
   </main>
 
   <div id="assistant-root"></div>
-  <script defer src="script.js"></script>
+  <script defer src="script.js?v=20260501-fix2"></script>
 </body>
 </html>
