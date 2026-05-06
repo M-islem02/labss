@@ -55,6 +55,11 @@
   node_bundler = "esbuild"
 
 [[redirects]]
+  from = "/admin"
+  to = "/admin-dashboard.html"
+  status = 200
+
+[[redirects]]
   from = "/api/chat"
   to = "/.netlify/functions/gemini-chat"
   status = 200

@@ -8,6 +8,7 @@ import os
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from urllib import error, request
+from urllib.parse import urlparse
 
 
 EXTRA_TYPES = {
@@ -29,8 +30,11 @@ Your role is to help with school science and mathematics, especially physics, el
 Rules:
 - Reply in the same language as the student message. If the user writes in Arabic, answer fully in Arabic. If they write in French, answer fully in French. If they write in English, answer fully in English.
 - Keep the tone educational, calm, and encouraging.
-- Prefer short explanations with steps.
-- When the question is about a lab, explain the goal, materials, steps, common mistakes, and safety when relevant.
+- Give efficient, useful answers: explain the idea, then give concrete steps the learner can do now.
+- When the question is about a lab, include the goal, needed materials, exact next action, common mistakes, expected observation, and safety when relevant.
+- Use clear structure with short headings or numbered steps. Do not answer with only one sentence unless the student asks for something tiny.
+- If the student is stuck, diagnose the likely cause and propose 2-4 checks.
+- End with a small recap or "what to do next" line.
 - If the learner greets you, greet them naturally and invite them to ask about the lesson or experiment.
 - Do not claim to have done physical actions in the lab.
 - If the request is unrelated to education, gently bring it back to study help.
@@ -142,7 +146,13 @@ def build_local_fallback(message: str, lab_name: str) -> str:
         return f"Bonjour. Je suis la pour discuter normalement avec vous et aussi pour vous aider dans {lab_name}."
     if any(word in lowered for word in ["comment ca va", "comment ça va"]):
         return "Je vais bien, merci. Comment puis-je vous aider aujourd'hui pour votre cours ou votre experience ?"
-    return f"Je peux repondre normalement et aussi vous aider dans {lab_name}, les etapes, les erreurs frequentes ou le resultat."
+    return (
+        f"Je peux vous aider efficacement dans {lab_name}.\n\n"
+        "1. Dites-moi si vous voulez l'objectif, les etapes, l'erreur a corriger ou l'explication du resultat.\n"
+        "2. Si vous etes bloque, decrivez ce que vous voyez dans le labo et je vous donne les verifications a faire.\n"
+        "3. Pour avancer maintenant : relisez l'etape en cours, placez l'objet demande, puis observez le changement.\n\n"
+        "Petit recap : je peux expliquer le cours, guider la manipulation et preparer le quiz final."
+    )
 
 
 def gemini_chat(message: str, history, lab_name: str) -> str:
@@ -161,7 +171,7 @@ def gemini_chat(message: str, history, lab_name: str) -> str:
         "generationConfig": {
             "temperature": 0.6,
             "topP": 0.9,
-            "maxOutputTokens": 700,
+            "maxOutputTokens": 1100,
         },
         "safetySettings": [
             {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
@@ -195,6 +205,10 @@ def gemini_chat(message: str, history, lab_name: str) -> str:
 
 class UnityFriendlyHandler(SimpleHTTPRequestHandler):
     server_version = "EduVirtuelLocal/1.0"
+    CLEAN_ROUTES = {
+        "/admin": "/admin-dashboard.html",
+        "/admin/": "/admin-dashboard.html",
+    }
 
     def end_headers(self) -> None:
         self.send_header("Cache-Control", "no-cache")
@@ -208,6 +222,10 @@ class UnityFriendlyHandler(SimpleHTTPRequestHandler):
         return EXTRA_TYPES.get(path_obj.suffix, mimetypes.guess_type(path)[0] or "application/octet-stream")
 
     def send_head(self):
+        request_path = urlparse(self.path).path
+        if request_path in self.CLEAN_ROUTES:
+            self.path = self.CLEAN_ROUTES[request_path]
+
         path = self.translate_path(self.path)
         path_obj = Path(path)
 

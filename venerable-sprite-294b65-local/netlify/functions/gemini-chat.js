@@ -1,30 +1,81 @@
 // ═══════════════════════════════════════════════════════════════
 //  Gemini Chatbot Function  ·  gemini-chat.js
-//  Bilingual educational assistant for Algerian students (AR/FR)
+//  Intelligent educational assistant — per-lab context-aware
 // ═══════════════════════════════════════════════════════════════
 
 const GEMINI_ENDPOINT =
   'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
-const SYSTEM_PROMPT = `You are an intelligent and friendly educational assistant for Algerian students (middle school and high school).
-You help with physics, chemistry, biology, mathematics and science lab experiments.
-You explain concepts clearly, step by step, using simple and accessible language appropriate for students aged 12–18.
-You are encouraging, patient, and educational.
+function buildSystemPrompt(ctx) {
+  const {
+    lang = 'fr',
+    labName = 'Laboratoire virtuel',
+    experimentTitle = 'Expérience scientifique',
+    experimentSubject = 'Sciences',
+    experimentIntro = '',
+    experimentHelp = '',
+    experimentError = '',
+    experimentSuccess = '',
+    currentStep = 1,
+    currentStepHint = ''
+  } = ctx;
 
-IMPORTANT LANGUAGE RULES:
-- If the student writes in Arabic, respond ENTIRELY in Arabic (Modern Standard Arabic or Algerian dialect is fine).
-- If the student writes in French, respond ENTIRELY in French.
-- Never mix languages in the same response.
-- Keep responses concise (max 3–4 short paragraphs).
+  const langRule =
+    lang === 'ar'
+      ? 'Le étudiant utilise l\'interface en arabe. Tu dois TOUJOURS répondre uniquement en arabe (arabe standard moderne). Ne mélange jamais l\'arabe avec le français ou l\'anglais dans la même réponse.'
+      : lang === 'en'
+      ? 'The student is using the English interface. ALWAYS respond in English only. Never mix English with French or Arabic in the same response.'
+      : 'L\'étudiant utilise l\'interface en français. Tu dois TOUJOURS répondre uniquement en français. Ne mélange jamais le français avec l\'arabe ou l\'anglais dans la même réponse.';
 
-TOPICS YOU COVER:
-- Physics: mechanics (free fall, inclined plane, pendulum, projectile), electricity (circuits, Ohm's law), optics, waves
-- Chemistry: reactions (Zn+HCl, limewater CO2 test), atomic structure, pH, oxidation-reduction
-- Biology: osmosis, photosynthesis, cell biology, digestion
-- Mathematics: algebra, equations, geometry, trigonometry
-- Laboratory safety rules
+  const stepInfo = currentStepHint
+    ? `\n- Étape actuelle de l'élève : étape ${currentStep} — ${currentStepHint}`
+    : '';
 
-Always relate answers to Algerian school curriculum when possible.`;
+  const errorInfo = experimentError
+    ? `\n- Erreur fréquente à éviter : ${experimentError}`
+    : '';
+
+  const successInfo = experimentSuccess
+    ? `\n- Ce que constitue un bon résultat : ${experimentSuccess}`
+    : '';
+
+  return `Tu es un assistant pédagogique intelligent et enthousiaste pour les travaux pratiques de sciences, conçu pour aider les élèves algériens du cycle moyen et lycéen (classes de 12 à 18 ans).
+
+CONTEXTE DU LABORATOIRE EN COURS :
+- Labo : ${labName}
+- Expérience : ${experimentTitle}
+- Matière : ${experimentSubject}
+- Objectif de l'expérience : ${experimentIntro || 'Réaliser l\'expérience et observer les résultats.'}
+- Conseils clés : ${experimentHelp || 'Suivre les étapes avec soin.'}${stepInfo}${errorInfo}${successInfo}
+
+RÈGLE DE LANGUE ABSOLUE :
+${langRule}
+Si l'élève écrit dans une autre langue, réponds quand même dans la langue de l'interface définie ci-dessus.
+
+COMPORTEMENT :
+- Sois encourageant, patient et pédagogique — comme un professeur de sciences bienveillant
+- Donne des réponses intelligentes, contextualisées et précises — jamais de réponses génériques ou vides
+- Relie chaque explication au contexte spécifique du laboratoire ci-dessus
+- Donne des réponses efficaces et assez complètes : explication courte, puis actions concrètes à faire maintenant
+- Structure souvent avec : Objectif, Étapes, Vérification, Erreurs à éviter, Résultat attendu
+- Ne sois pas trop bref : une bonne réponse doit aider l'élève à continuer sans deviner
+- Si l'élève est bloqué, propose 2 à 4 vérifications précises
+- Termine par un mini-récapitulatif ou une prochaine action
+- Utilise un langage simple et accessible au niveau scolaire algérien
+- Pour les questions sur l'objectif, explique l'expérience en cours avec ses détails
+- Pour les questions sur les étapes suivantes, guide l'élève dans le déroulement de l'expérience
+- Pour les questions sur les erreurs, explique les erreurs courantes liées à cette expérience précise
+- Pour les questions générales de sciences, relie la réponse à ce laboratoire spécifique
+
+DOMAINES COUVERTS :
+- Physique : circuits électriques, loi d'Ohm, électricité, mécanique, chute libre, plan incliné, pendule
+- Chimie : réactions chimiques (Zn+HCl), sécurité en laboratoire, collecte de gaz, tests à la flamme, pH
+- Biologie : osmose, photosynthèse, absorption d'eau chez les plantes, biologie cellulaire
+- Mesures physiques : balance, masse, techniques de mesure
+- Règles de sécurité en laboratoire
+
+Rappel : Tu es en train d'aider un élève qui réalise l'expérience "${experimentTitle}" dans le laboratoire "${labName}". Toutes tes réponses doivent être ancrées dans ce contexte précis.`;
+}
 
 function json(statusCode, body) {
   return {
@@ -44,10 +95,10 @@ function sanitizeHistory(history) {
   if (!Array.isArray(history)) return [];
   return history
     .filter(e => e && typeof e.role === 'string' && typeof e.text === 'string')
-    .slice(-6)
+    .slice(-8)
     .map(e => ({
       role: e.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: e.text.trim().slice(0, 1500) }]
+      parts: [{ text: e.text.trim().slice(0, 2000) }]
     }))
     .filter(e => e.parts[0].text);
 }
@@ -93,6 +144,18 @@ exports.handler = async function handler(event) {
   if (!message) return json(400, { error: 'Message is required.' });
 
   const history = sanitizeHistory(payload.history);
+  const systemPrompt = buildSystemPrompt({
+    lang: payload.lang,
+    labName: payload.labName,
+    experimentTitle: payload.experimentTitle,
+    experimentSubject: payload.experimentSubject,
+    experimentIntro: payload.experimentIntro,
+    experimentHelp: payload.experimentHelp,
+    experimentError: payload.experimentError,
+    experimentSuccess: payload.experimentSuccess,
+    currentStep: payload.currentStep,
+    currentStepHint: payload.currentStepHint
+  });
 
   const contents = [
     ...history,
@@ -104,12 +167,12 @@ exports.handler = async function handler(event) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        systemInstruction: { parts: [{ text: systemPrompt }] },
         contents,
         generationConfig: {
-          temperature: 0.65,
+          temperature: 0.7,
           topP: 0.92,
-          maxOutputTokens: 600
+          maxOutputTokens: 1100
         },
         safetySettings: [
           { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },

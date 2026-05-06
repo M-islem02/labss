@@ -845,8 +845,8 @@
         gsap.killTweensOf(bottle.rotation);
         const pourTl = gsap.timeline();
         pourTl
-          .to(bottle.position, { x: 0.88, y: 2.82, z: 0.1, duration: 0.55, ease: 'power2.out' })
-          .to(bottle.rotation, { z: -Math.PI / 2.2, duration: 0.4, ease: 'power2.inOut' })
+          .to(bottle.position, { x: 0.58, y: 2.82, z: 0.1, duration: 0.55, ease: 'power2.out' })
+          .to(bottle.rotation, { z: -Math.PI / 2, duration: 0.4, ease: 'power2.inOut' })
           .to({}, { duration: 0.85 })
           .to(bottle.rotation, { z: -0.16, duration: 0.38, ease: 'power2.inOut' })
           .to(bottle.position, { x: 2.84, y: 0.2, z: 0.24, duration: 0.75, ease: 'back.out(1.2)' });
@@ -1191,7 +1191,7 @@
       }
 
       const dockPosition = new THREE.Vector3(-2.42, 0.26, 1.18);
-      const beakerPosition = new THREE.Vector3(0.54, 0.26, 0.16);
+      const beakerPosition = new THREE.Vector3(0.58, 0.26, 0.1);
       const dockRotationY = 0.68;
       const beakerRotationY = 0.12;
       plantGroup.position.copy(dockPosition);
@@ -1203,8 +1203,8 @@
         new THREE.CylinderGeometry(0.016, 0.026, 1.18, 12),
         new THREE.MeshStandardMaterial({ color: 0xd94060, transparent: true, opacity: 0, roughness: 0.12, metalness: 0.04 })
       );
-      pourStream.position.set(0.72, 2.1, 0.1);
-      pourStream.rotation.z = 0.14;
+      pourStream.position.set(0.58, 2.1, 0.1);
+      pourStream.rotation.z = 0;
       pourStream.visible = false;
       scene.add(pourStream);
 

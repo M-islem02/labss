@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EduVirtuel - Admin</title>
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css?v=20260506-admin">
+</head>
+<body data-page="admin-dashboard" data-lang="fr" class="teacher-page admin-page">
+  <header class="topbar"><div class="topbar-inner">
+    <a class="brand" href="/index.html">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span><strong>EduVirtuel</strong><small>
+        <span class="lang-fr">Administration de la plateforme</span>
+        <span class="lang-ar">Administration de la plateforme</span>
+        <span class="lang-en">Platform administration</span>
+      </small></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="topbar-nav">
+      <div class="student-pill"><span class="lang-fr">Profil</span><span class="lang-ar">Profil</span><span class="lang-en">Profile</span><strong data-student-display></strong></div>
+      <div class="lang-switch" aria-label="Language">
+        <button type="button" class="lang-btn" data-lang="fr">FR</button>
+        <button type="button" class="lang-btn" data-lang="ar">AR</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
+      <button type="button" class="secondary-btn logout-btn">
+        <span class="lang-fr">Se deconnecter</span>
+        <span class="lang-ar">Se deconnecter</span>
+        <span class="lang-en">Log out</span>
+      </button>
+    </div>
+  </div></header>
+
+  <main class="page-shell" style="max-width:100%;padding:14px 28px 36px;">
+    <div class="teacher-hero-strip fade-up">
+      <div class="teacher-hero-text">
+        <h1><span class="lang-fr">Dashboard admin</span><span class="lang-ar">Dashboard admin</span><span class="lang-en">Admin dashboard</span></h1>
+        <p>
+          <span class="lang-fr">Ajoutez les professeurs et consultez toutes les informations de la plateforme.</span>
+          <span class="lang-ar">Ajoutez les professeurs et consultez toutes les informations de la plateforme.</span>
+          <span class="lang-en">Add professors and view all platform information.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="teacher-stats-bar fade-up delay-1">
+      <div class="teacher-stat-card"><strong id="admin-stat-professors">0</strong><small>Professeurs</small></div>
+      <div class="teacher-stat-card"><strong id="admin-stat-students">0</strong><small>Eleves</small></div>
+      <div class="teacher-stat-card"><strong id="admin-stat-codes">0</strong><small>Codes classe</small></div>
+      <div class="teacher-stat-card"><strong id="admin-stat-experiments">0</strong><small>Experiences terminees</small></div>
+    </div>
+
+    <section class="admin-dashboard-grid fade-up delay-2">
+      <article class="panel-card admin-panel-create">
+        <div class="panel-head">
+          <h2><span class="lang-fr">Ajouter un professeur</span><span class="lang-ar">Ajouter un professeur</span><span class="lang-en">Add professor</span></h2>
+          <p><span class="lang-fr">Le professeur pourra se connecter depuis la page enseignant.</span><span class="lang-ar">Le professeur pourra se connecter depuis la page enseignant.</span><span class="lang-en">The professor can sign in from the teacher login page.</span></p>
+        </div>
+        <form id="admin-professor-form" class="code-generator-form">
+          <label>Nom complet<input name="name" type="text" required data-placeholder-fr="Nom du professeur" data-placeholder-ar="Nom du professeur" data-placeholder-en="Professor name"></label>
+          <label>Utilisateur<input name="username" type="text" required data-placeholder-fr="ex : prof_svt" data-placeholder-ar="ex : prof_svt" data-placeholder-en="e.g. prof_svt"></label>
+          <label>Mot de passe<input name="password" type="text" required data-placeholder-fr="Mot de passe" data-placeholder-ar="Mot de passe" data-placeholder-en="Password"></label>
+          <label>Matiere<input name="subject" type="text" data-placeholder-fr="Sciences, physique..." data-placeholder-ar="Sciences, physique..." data-placeholder-en="Science, physics..."></label>
+          <label>Codes classe<input name="classCode" type="text" data-placeholder-fr="CEM2026, LYC2025" data-placeholder-ar="CEM2026, LYC2025" data-placeholder-en="CEM2026, LYC2025"></label>
+          <p class="form-note">Note : liez un ou plusieurs codes classe au professeur. Exemple : CEM2026, LYC2025. Les eleves doivent sauvegarder leur code de connexion personnel.</p>
+          <button type="submit" class="primary-btn">Ajouter</button>
+        </form>
+      </article>
+
+      <article class="panel-card admin-panel-professors">
+        <div class="panel-head">
+          <h2>Professeurs</h2>
+          <p>Comptes autorises a utiliser le dashboard enseignant.</p>
+        </div>
+        <div id="admin-professor-list" class="admin-list"></div>
+      </article>
+
+      <article class="panel-card">
+        <div class="panel-head">
+          <h2>Classes et codes</h2>
+          <p>Chaque code avec son professeur et les etudiants lies.</p>
+        </div>
+        <div id="admin-class-list" class="admin-list"></div>
+      </article>
+
+      <article class="panel-card">
+        <div class="panel-head">
+          <h2>Tous les etudiants</h2>
+          <p>Les visiteurs sans code apparaissent dans DIRECT.</p>
+        </div>
+        <div id="admin-student-list" class="admin-list"></div>
+      </article>
+
+      <article class="panel-card admin-panel-wide">
+        <div class="panel-head">
+          <h2>Activite et historique</h2>
+          <p>Scores de laboratoire et de quiz conserves pour consultation future.</p>
+        </div>
+        <div id="admin-activity-list" class="admin-list"></div>
+      </article>
+    </section>
+  </main>
+
+  <div id="assistant-root"></div>
+  <script defer src="/script.js?v=20260506-admin"></script>
+</body>
+</html>
