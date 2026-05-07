@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>EduVirtuel - Tableau de bord enseignant</title>
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="style.css?v=20260504-quiz-ui">
+  <link rel="stylesheet" href="style.css?v=20260507-rank">
 </head>
 <body data-page="teacher-dashboard" data-lang="fr" class="teacher-page">
   <header class="topbar"><div class="topbar-inner">
@@ -138,6 +138,7 @@
           <table class="results-table">
             <thead>
               <tr>
+                <th><span class="lang-fr">Rang</span><span class="lang-ar">&#x627;&#x644;&#x62A;&#x631;&#x62A;&#x64A;&#x628;</span><span class="lang-en">Rank</span></th>
                 <th><span class="lang-fr">Nom &eacute;l&egrave;ve</span><span class="lang-ar">&#x627;&#x633;&#x645; &#x627;&#x644;&#x645;&#x62A;&#x639;&#x644;&#x645;</span><span class="lang-en">Student name</span></th>
                 <th><span class="lang-fr">Classe</span><span class="lang-ar">&#x627;&#x644;&#x642;&#x633;&#x645;</span><span class="lang-en">Class</span></th>
                 <th><span class="lang-fr">Niveau</span><span class="lang-ar">&#x627;&#x644;&#x645;&#x633;&#x62A;&#x648;&#x649;</span><span class="lang-en">Level</span></th>
@@ -193,21 +194,12 @@
               <span class="lang-en">Student code</span>
             </h2>
             <p>
-              <span class="lang-fr">Cr&eacute;ez un code simple. L&rsquo;&eacute;l&egrave;ve le saisit au d&eacute;part pour rejoindre votre classe.</span>
-              <span class="lang-ar">&#x623;&#x646;&#x634;&#x626; &#x631;&#x645;&#x632;&#x627; &#x628;&#x633;&#x64A;&#x637;&#x627; &#x64A;&#x62F;&#x62E;&#x644;&#x647; &#x627;&#x644;&#x62A;&#x644;&#x645;&#x64A;&#x630; &#x641;&#x64A; &#x627;&#x644;&#x628;&#x62F;&#x627;&#x64A;&#x629;.</span>
-              <span class="lang-en">Create a simple code. The student enters it at the start to join your class.</span>
+              <span class="lang-fr">Cr&eacute;ez un code de classe par niveau. L&rsquo;&eacute;l&egrave;ve le saisit au d&eacute;part pour rejoindre votre classe.</span>
+              <span class="lang-ar">&#x623;&#x646;&#x634;&#x626; &#x631;&#x645;&#x632; &#x642;&#x633;&#x645; &#x62D;&#x633;&#x628; &#x627;&#x644;&#x645;&#x633;&#x62A;&#x648;&#x649;.</span>
+              <span class="lang-en">Create one class code per level. The student enters it to join your class.</span>
             </p>
           </div>
           <form id="lab-code-form" class="code-generator-form">
-            <label>
-              <span class="lang-fr">Type de code</span>
-              <span class="lang-ar">&#x646;&#x648;&#x639; &#x627;&#x644;&#x631;&#x645;&#x632;</span>
-              <span class="lang-en">Code type</span>
-              <select name="codeType">
-                <option value="single" selected>Activit&eacute; unique</option>
-                <option value="promo">Code promo de classe</option>
-              </select>
-            </label>
             <label>
               <span class="lang-fr">Niveau</span>
               <span class="lang-ar">&#x627;&#x644;&#x645;&#x633;&#x62A;&#x648;&#x649;</span>
@@ -219,32 +211,21 @@
               </select>
             </label>
             <p class="form-note">
-              <span class="lang-fr"><strong>Note :</strong> selectionnez le niveau avant de creer le code. Les eleves doivent sauvegarder le code, car ils l'utiliseront pour rejoindre la classe.</span>
+              <span class="lang-fr"><strong>Note :</strong> selectionnez le niveau avant de creer le code. Ce code ouvre les laboratoires disponibles pour ce niveau. Les eleves doivent le sauvegarder.</span>
               <span class="lang-ar"><strong>Note :</strong> selectionnez le niveau avant de creer le code. Les eleves doivent sauvegarder le code.</span>
-              <span class="lang-en"><strong>Note:</strong> select the level before creating the code. Students must save the code because they will use it to join the class.</span>
+              <span class="lang-en"><strong>Note:</strong> select the level before creating the code. This code opens the labs available for that level. Students must save it.</span>
             </p>
-            <label>
-              <span class="lang-fr">Activit&eacute;</span>
-              <span class="lang-ar">&#x627;&#x644;&#x646;&#x634;&#x627;&#x637;</span>
-              <span class="lang-en">Activity</span>
-              <select name="codeExperiment">
-                <option value="plante">Absorption de l&rsquo;eau par la plante</option>
-                <option value="circuit">Circuit &eacute;lectrique</option>
-                <option value="masse">Masses et balance</option>
-                <option value="chimie">R&eacute;action produisant l&rsquo;hydrog&egrave;ne</option>
-              </select>
-            </label>
-            <fieldset class="promo-labs-field" id="promo-labs-field" hidden>
+            <fieldset class="promo-labs-field" id="promo-labs-field">
               <legend>
-                <span class="lang-fr">Laboratoires disponibles avec ce code</span>
+                <span class="lang-fr">Laboratoires inclus avec ce code</span>
                 <span class="lang-ar">&#x627;&#x644;&#x645;&#x62E;&#x62A;&#x628;&#x631;&#x627;&#x62A; &#x627;&#x644;&#x645;&#x62A;&#x627;&#x62D;&#x629; &#x628;&#x647;&#x630;&#x627; &#x627;&#x644;&#x631;&#x645;&#x632;</span>
-                <span class="lang-en">Labs available with this code</span>
+                <span class="lang-en">Labs included with this code</span>
               </legend>
               <div class="promo-labs-grid" id="promo-labs-grid"></div>
               <p class="form-note">
-                <span class="lang-fr">Cochez seulement les laboratoires autorises pour cette classe.</span>
-                <span class="lang-ar">&#x62D;&#x62F;&#x62F; &#x641;&#x642;&#x637; &#x627;&#x644;&#x645;&#x62E;&#x62A;&#x628;&#x631;&#x627;&#x62A; &#x627;&#x644;&#x645;&#x633;&#x645;&#x648;&#x62D;&#x629; &#x644;&#x647;&#x630;&#x627; &#x627;&#x644;&#x642;&#x633;&#x645;.</span>
-                <span class="lang-en">Select only the labs allowed for this class.</span>
+                <span class="lang-fr">Tous les laboratoires compatibles avec le niveau sont inclus automatiquement.</span>
+                <span class="lang-ar">&#x643;&#x644; &#x627;&#x644;&#x645;&#x62E;&#x62A;&#x628;&#x631;&#x627;&#x62A; &#x627;&#x644;&#x645;&#x646;&#x627;&#x633;&#x628;&#x629; &#x644;&#x644;&#x645;&#x633;&#x62A;&#x648;&#x649; &#x645;&#x636;&#x627;&#x641;&#x629; &#x622;&#x644;&#x64A;&#x627;.</span>
+                <span class="lang-en">All labs compatible with the selected level are included automatically.</span>
               </p>
             </fieldset>
             <button type="submit" class="primary-btn">
@@ -277,6 +258,6 @@
   </main>
 
   <div id="assistant-root"></div>
-  <script defer src="script.js?v=20260504-quiz-ui"></script>
+  <script defer src="script.js?v=20260507-rank"></script>
 </body>
 </html>

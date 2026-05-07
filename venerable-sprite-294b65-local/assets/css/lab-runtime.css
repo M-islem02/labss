@@ -2156,32 +2156,3 @@
         max-height: 34vh !important;
       }
     }
-  
-
-/* ============ Back-to-site button ============ */
-#back-to-site-btn {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 99999;
-  background: rgba(10,24,60,0.88);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 9px 16px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-  text-decoration: none;
-  transition: background 0.2s, transform 0.15s;
-  font-family: inherit;
-}
-#back-to-site-btn:hover {
-  background: rgba(21,101,192,0.95);
-  transform: translateY(-1px);
-}

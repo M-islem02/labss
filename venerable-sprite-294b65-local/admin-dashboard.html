@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>EduVirtuel - Admin</title>
   <link rel="icon" href="/favicon.svg">
-  <link rel="stylesheet" href="/style.css?v=20260506-admin">
+  <link rel="stylesheet" href="/style.css?v=20260507-rank">
 </head>
 <body data-page="admin-dashboard" data-lang="fr" class="teacher-page admin-page">
   <header class="topbar"><div class="topbar-inner">
@@ -88,9 +88,17 @@
       <article class="panel-card">
         <div class="panel-head">
           <h2>Tous les etudiants</h2>
-          <p>Les visiteurs sans code apparaissent dans DIRECT.</p>
+          <p>Les visiteurs sans code apparaissent dans DIRECT. Chaque etudiant affiche son niveau, sa classe et son rang.</p>
         </div>
         <div id="admin-student-list" class="admin-list"></div>
+      </article>
+
+      <article class="panel-card">
+        <div class="panel-head">
+          <h2>Classement global</h2>
+          <p>Rang de tous les etudiants selon les meilleurs scores lab et quiz.</p>
+        </div>
+        <div id="admin-rank-list" class="admin-list"></div>
       </article>
 
       <article class="panel-card admin-panel-wide">
@@ -104,6 +112,6 @@
   </main>
 
   <div id="assistant-root"></div>
-  <script defer src="/script.js?v=20260506-admin"></script>
+  <script defer src="/script.js?v=20260507-rank"></script>
 </body>
 </html>

@@ -2354,15 +2354,63 @@ function renderTeacherInsights(rows) {
   `;
 }
 
+function canonicalClassCode(code) {
+  const normalized = normalizeLabCode(code || "DIRECT") || "DIRECT";
+  if (normalized === "DIRECT") return "DIRECT";
+  const assignment = findLabCodeAssignment(normalized);
+  return assignment ? assignment.code : normalized;
+}
+
+function getStudentRankRows(rows = getTeacherRows()) {
+  const byStudent = new Map();
+  rows.forEach((row) => {
+    const classCode = canonicalClassCode(row.classCode || "DIRECT");
+    const key = `${String(row.studentName || "").toLowerCase()}|${normalizeLabCode(classCode)}`;
+    const existing = byStudent.get(key) || {
+      studentName: row.studentName || "-",
+      classCode,
+      level: normalizeLevelKey(row.level || "cem"),
+      scores: []
+    };
+    if (row.experimentId) existing.scores.push(Number(row.score) || 0);
+    byStudent.set(key, existing);
+  });
+  readResultHistory().forEach((item) => {
+    const classCode = canonicalClassCode(item.classCode || "DIRECT");
+    const key = `${String(item.studentName || "").toLowerCase()}|${normalizeLabCode(classCode)}`;
+    const existing = byStudent.get(key) || {
+      studentName: item.studentName || "-",
+      classCode,
+      level: normalizeLevelKey(item.level || "cem"),
+      scores: []
+    };
+    const labScore = Number(item.labScore);
+    const quizScore = Number(item.quizScore);
+    if (Number.isFinite(labScore)) existing.scores.push(labScore);
+    if (Number.isFinite(quizScore)) existing.scores.push(quizScore);
+    byStudent.set(key, existing);
+  });
+  return [...byStudent.values()]
+    .map((item) => ({
+      ...item,
+      score: item.scores.length ? Math.round(item.scores.reduce((sum, score) => sum + score, 0) / item.scores.length) : 0
+    }))
+    .sort((a, b) => b.score - a.score || a.studentName.localeCompare(b.studentName))
+    .map((item, index) => ({ ...item, rank: index + 1 }));
+}
+
 function renderTeacherTable(rows) {
   const tableBody = document.getElementById("teacher-table-body");
   if (!tableBody) return;
+  const rankMap = new Map(getStudentRankRows(rows).map((item) => [`${String(item.studentName || "").toLowerCase()}|${normalizeLabCode(item.classCode)}`, item.rank]));
   tableBody.innerHTML = rows.map((row, index) => {
     const levelLabel = LEVEL_LABELS[row.level] || LEVEL_LABELS.cem;
     const levelDisplay = getText(levelLabel);
     const experimentDisplay = row.experimentId ? getText(getExperimentConfig(row.experimentId).title) : getText({ fr: "Aucune experience", ar: "لا توجد تجربة" });
     const scoreDisplay = row.experimentId ? `${escapeHtml(String(row.score))}%` : "-";
-    return `<tr data-row-index="${index}"><td>${escapeHtml(row.studentName)}</td><td>${escapeHtml(row.classCode)}</td><td>${escapeHtml(levelDisplay)}</td><td>${escapeHtml(experimentDisplay)}</td><td>${scoreDisplay}</td><td>${escapeHtml(getText(row.aiEvaluation))}</td></tr>`;
+    const classCode = canonicalClassCode(row.classCode);
+    const rank = rankMap.get(`${String(row.studentName || "").toLowerCase()}|${normalizeLabCode(classCode)}`) || "-";
+    return `<tr data-row-index="${index}"><td><strong>#${escapeHtml(String(rank))}</strong></td><td>${escapeHtml(row.studentName)}</td><td>${escapeHtml(classCode)}</td><td>${escapeHtml(levelDisplay)}</td><td>${escapeHtml(experimentDisplay)}</td><td>${scoreDisplay}</td><td>${escapeHtml(getText(row.aiEvaluation))}</td></tr>`;
   }).join("");
   tableBody.querySelectorAll("tr").forEach((rowNode) => {
     rowNode.addEventListener("click", () => renderTeacherDetail(rows[Number(rowNode.dataset.rowIndex)]));
@@ -2373,7 +2421,7 @@ function renderTeacherTable(rows) {
 function renderLabCodeList() {
   const list = document.getElementById("lab-code-list");
   if (!list) return;
-  const codes = readLabCodes();
+  const codes = readLabCodes().filter((item) => getAssignmentType(item) === "promo");
   if (!codes.length) {
     list.innerHTML = `
       <div class="empty-card">
@@ -2425,7 +2473,6 @@ function renderLabCodeList() {
 function initLabCodeGenerator() {
   const form = document.getElementById("lab-code-form");
   if (!form) return;
-  const typeSelect = form.querySelector('[name="codeType"]');
   const levelSelect = form.querySelector('[name="codeLevel"]');
   const experimentSelect = form.querySelector('[name="codeExperiment"]');
   const promoLabsField = document.getElementById("promo-labs-field");
@@ -2437,7 +2484,7 @@ function initLabCodeGenerator() {
     const labs = availableLabsForLevel(level);
     promoLabsGrid.innerHTML = labs.map((item, index) => `
       <label class="promo-lab-option">
-        <input type="checkbox" name="promoLabs" value="${escapeHtml(item.lab)}" ${index === 0 ? "checked" : ""}>
+        <input type="checkbox" name="promoLabs" value="${escapeHtml(item.lab)}" checked disabled>
         <span>
           <strong>${escapeHtml(getText(item.title))}</strong>
           <span>${escapeHtml(getText(item.subject))}</span>
@@ -2447,10 +2494,9 @@ function initLabCodeGenerator() {
   }
 
   function refreshGeneratorMode() {
-    const isPromo = (typeSelect ? typeSelect.value : "single") === "promo";
     const experimentLabel = experimentSelect ? experimentSelect.closest("label") : null;
-    if (experimentLabel) experimentLabel.hidden = isPromo;
-    if (promoLabsField) promoLabsField.hidden = !isPromo;
+    if (experimentLabel) experimentLabel.hidden = true;
+    if (promoLabsField) promoLabsField.hidden = false;
   }
 
   function refreshExperimentOptions() {
@@ -2469,7 +2515,6 @@ function initLabCodeGenerator() {
 
   if (levelSelect) levelSelect.addEventListener("change", refreshExperimentOptions);
   if (levelSelect) levelSelect.addEventListener("change", renderPromoLabOptions);
-  if (typeSelect) typeSelect.addEventListener("change", refreshGeneratorMode);
   refreshExperimentOptions();
   renderPromoLabOptions();
   refreshGeneratorMode();
@@ -2478,10 +2523,10 @@ function initLabCodeGenerator() {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const data = new FormData(form);
-    const codeType = String(data.get("codeType") || "single");
+    const codeType = "promo";
     const level = normalizeLevelKey(String(data.get("codeLevel") || "cem"));
-    const experimentId = String(data.get("codeExperiment") || "plante");
-    const selectedPromoLabs = data.getAll("promoLabs").map((value) => String(value));
+    const experimentId = availableLabsForLevel(level)[0]?.lab || "plante";
+    const selectedPromoLabs = availableLabsForLevel(level).map((item) => item.lab);
     const audience = EXPERIMENT_AUDIENCE[experimentId];
     if (codeType === "single" && audience && !audience.levels.includes(level)) {
       alert(getText({ fr: "Cette activite ne correspond pas a ce niveau.", ar: "هذا النشاط لا يناسب هذا المستوى." }));
@@ -3934,6 +3979,7 @@ function renderAdminStudents() {
   const target = document.getElementById("admin-student-list");
   if (!target) return;
   const students = readJson(STORAGE.students, []);
+  const rankMap = new Map(getStudentRankRows().map((item) => [`${String(item.studentName || "").toLowerCase()}|${normalizeLabCode(item.classCode)}`, item]));
   if (!students.length) {
     target.innerHTML = `<div class="empty-card">${escapeHtml(getText({ fr: "Aucun eleve inscrit.", ar: "Aucun eleve inscrit.", en: "No registered student." }))}</div>`;
     return;
@@ -3973,7 +4019,7 @@ function renderAdminActivity() {
 function renderAdminDashboard() {
   const professors = readProfessors();
   const students = readJson(STORAGE.students, []);
-  const codes = readLabCodes();
+  const codes = readLabCodes().filter((item) => getAssignmentType(item) === "promo");
   const rows = getTeacherRows();
   const completed = rows.filter((row) => row.experimentId).length;
   const statProfessors = document.getElementById("admin-stat-professors");
@@ -3992,30 +4038,36 @@ function renderAdminDashboard() {
 function adminClassCodes() {
   const codeMap = new Map();
   readLabCodes().forEach((code) => {
-    codeMap.set(code.code, {
+    if (getAssignmentType(code) !== "promo") return;
+    const key = normalizeLabCode(code.code);
+    codeMap.set(key, {
       code: code.code,
       level: normalizeLevelKey(code.level || "cem"),
-      source: getAssignmentType(code) === "promo" ? "Code promo" : "Code activite",
+      source: "Code classe",
       labs: assignmentAllowedExperiments(code)
     });
   });
   readProfessors().forEach((professor) => {
     professorClassCodes(professor).forEach((code) => {
       if (!code) return;
-      const existing = codeMap.get(code) || { code, level: "cem", source: "Code professeur", labs: [] };
+      const key = normalizeLabCode(code);
+      const existing = codeMap.get(key) || { code, level: "cem", source: "Code professeur", labs: [] };
       existing.professor = professor;
-      codeMap.set(code, existing);
+      codeMap.set(key, existing);
     });
   });
   readJson(STORAGE.students, []).forEach((student) => {
-    const code = normalizeLabCode(student.classCode || "DIRECT") || "DIRECT";
-    const existing = codeMap.get(code) || {
-      code,
+    const normalized = normalizeLabCode(student.classCode || "DIRECT") || "DIRECT";
+    const assignment = findLabCodeAssignment(normalized);
+    const code = assignment ? assignment.code : normalized;
+    const key = normalized === "DIRECT" ? "DIRECT" : normalizeLabCode(code);
+    const existing = codeMap.get(key) || {
+      code: normalized === "DIRECT" ? "DIRECT" : code,
       level: normalizeLevelKey(student.level || "cem"),
-      source: code === "DIRECT" ? "Visiteurs sans code" : "Code saisi par etudiant",
+      source: normalized === "DIRECT" ? "Visiteurs sans code" : "Code classe",
       labs: []
     };
-    codeMap.set(code, existing);
+    codeMap.set(key, existing);
   });
   if (!codeMap.has("DIRECT")) {
     codeMap.set("DIRECT", { code: "DIRECT", level: "cem", source: "Visiteurs sans code", labs: [] });
@@ -4111,18 +4163,42 @@ function renderAdminStudents() {
     .sort((a, b) => String(a.classCode || "DIRECT").localeCompare(String(b.classCode || "DIRECT")) || String(a.name || "").localeCompare(String(b.name || "")))
     .map((student) => {
       const level = LEVEL_LABELS[normalizeLevelKey(student.level)] || LEVEL_LABELS.cem;
-      const code = student.classCode || "DIRECT";
+      const code = canonicalClassCode(student.classCode || "DIRECT");
+      const ranking = rankMap.get(`${String(student.name || "").toLowerCase()}|${normalizeLabCode(code)}`);
       const kind = normalizeLabCode(code) === "DIRECT" ? "Visiteur sans code classe" : "Lie au code classe";
       return `
         <article class="admin-list-card">
           <div>
             <strong>${escapeHtml(student.name || "-")}</strong>
-            <p>${escapeHtml(getText(level))} - ${escapeHtml(kind)}</p>
+            <p>${escapeHtml(getText(level))} - ${escapeHtml(kind)} - Rang #${escapeHtml(String(ranking?.rank || "-"))}</p>
             <code>${escapeHtml(code)} | ${escapeHtml(student.password || "-")}</code>
           </div>
+          <span class="badge badge-light">${escapeHtml(String(ranking?.score ?? 0))}%</span>
         </article>
       `;
     }).join("");
+}
+
+function renderAdminRanking() {
+  const target = document.getElementById("admin-rank-list");
+  if (!target) return;
+  const ranking = getStudentRankRows();
+  if (!ranking.length) {
+    target.innerHTML = `<div class="empty-card">${escapeHtml(getText({ fr: "Aucun classement disponible.", ar: "Aucun classement disponible.", en: "No ranking available." }))}</div>`;
+    return;
+  }
+  target.innerHTML = ranking.map((item) => {
+    const level = LEVEL_LABELS[normalizeLevelKey(item.level)] || LEVEL_LABELS.cem;
+    return `
+      <article class="admin-list-card">
+        <div>
+          <strong>#${escapeHtml(String(item.rank))} - ${escapeHtml(item.studentName || "-")}</strong>
+          <p>${escapeHtml(getText(level))} - ${escapeHtml(item.classCode || "DIRECT")}</p>
+        </div>
+        <span class="badge badge-light">${escapeHtml(String(item.score))}%</span>
+      </article>
+    `;
+  }).join("");
 }
 
 function renderAdminActivity() {
@@ -4176,6 +4252,7 @@ function renderAdminDashboard() {
   renderAdminProfessors();
   renderAdminClasses();
   renderAdminStudents();
+  renderAdminRanking();
   renderAdminActivity();
 }
 
